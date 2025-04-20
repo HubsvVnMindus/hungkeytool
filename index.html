@@ -1,44 +1,103 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Thông tin Key</title>
-    <style>
-        body {
-            background: #111;
-            color: #00ffcc;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            padding-top: 100px;
-        }
-        .box {
-            background: #222;
-            border: 2px solid #00ffcc;
-            display: inline-block;
-            padding: 30px 50px;
-            border-radius: 10px;
-        }
-        .key {
-            font-size: 24px;
-            color: #ffeb3b;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hung Tool - Key Hôm Nay</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    .container {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 90%;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 10px;
+      color: #222;
+    }
+    .key {
+      font-size: 18px;
+      font-weight: bold;
+      color: #007bff;
+      margin: 10px 0;
+      word-break: break-word;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 13px;
+      text-align: center;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
-    <div class="box">
-        <h1>Chào mừng bạn đến với hệ thống xác thực</h1>
-        <p class="key" id="key">Đang xử lý...</p>
-    </div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const key = urlParams.get('ma');
-        const keyElement = document.getElementById('key');
-        if (key) {
-            keyElement.textContent = `Key của bạn là: ${key}`;
-        } else {
-            keyElement.textContent = 'Không có key nào được truyền!';
-        }
-    </script>
+  <div class="container">
+    <h2>Key hôm nay là:</h2>
+    <div class="key" id="keyDisplay">Đang lấy key...</div>
+    <button onclick="copyKey()">Copy Key</button>
+    <button onclick="toggleMusic()" id="musicBtn">Phát nhạc</button>
+  </div>
+
+  <div class="footer">
+    Bản quyền: Hung Tool ┃ Zalo: 0398639736<br>
+    Phiên bản: 1.0
+  </div>
+
+  <!-- Nhạc nền -->
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ audio.
+  </audio>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const key = urlParams.get('key') || 'Không có key';
+    document.getElementById("keyDisplay").textContent = key;
+
+    function copyKey() {
+      navigator.clipboard.writeText(key);
+      alert("Đã copy key: " + key);
+    }
+
+    const music = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+    let isPlaying = false;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.textContent = "Phát nhạc";
+      } else {
+        music.play();
+        musicBtn.textContent = "Dừng nhạc";
+      }
+      isPlaying = !isPlaying;
+    }
+  </script>
+
 </body>
 </html>
