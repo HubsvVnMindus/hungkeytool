@@ -42,8 +42,14 @@
       font-size: 20px;
       font-weight: bold;
       color: #2c3e50;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       transition: all 0.3s ease;
+    }
+
+    .expiry {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 20px;
     }
 
     button {
@@ -80,6 +86,7 @@
   <div class="container">
     <h2>Key hôm nay là</h2>
     <div class="key" id="keyDisplay">Đang lấy key...</div>
+    <div class="expiry" id="expiryTime">Tính toán hạn sử dụng...</div>
     <button onclick="copyKey()">Copy Key</button>
     <button onclick="toggleMusic()" id="musicBtn">Phát nhạc</button>
   </div>
@@ -98,6 +105,30 @@
     const urlParams = new URLSearchParams(window.location.search);
     const key = urlParams.get('key') || 'Không có key';
     document.getElementById("keyDisplay").textContent = key;
+
+    // Tính thời gian hết hạn key (24h)
+    const createdAt = new Date(); // Thời điểm người dùng vào
+    const expiryDate = new Date(createdAt.getTime() + 24 * 60 * 60 * 1000);
+
+    function updateExpiryCountdown() {
+      const now = new Date();
+      const remaining = expiryDate - now;
+
+      if (remaining <= 0) {
+        document.getElementById("expiryTime").textContent = "Key đã hết hạn!";
+        return;
+      }
+
+      const hours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((remaining / (1000 * 60)) % 60);
+      const seconds = Math.floor((remaining / 1000) % 60);
+
+      document.getElementById("expiryTime").textContent =
+        `Hạn sử dụng: còn ${hours}h ${minutes}p ${seconds}s`;
+    }
+
+    updateExpiryCountdown();
+    setInterval(updateExpiryCountdown, 1000);
 
     function copyKey() {
       navigator.clipboard.writeText(key);
