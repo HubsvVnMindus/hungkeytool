@@ -14,12 +14,17 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      animation: fadeIn 1s ease-in-out;
+      animation: fadeIn 1.5s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .container {
@@ -30,7 +35,7 @@
       text-align: center;
       max-width: 400px;
       width: 90%;
-      animation: fadeIn 1.2s ease;
+      animation: slideUp 1s ease-in-out;
     }
 
     h2 {
@@ -39,17 +44,19 @@
     }
 
     .key {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: bold;
       color: #2c3e50;
       margin-bottom: 10px;
-      transition: all 0.3s ease;
+      animation: fadeIn 1.2s ease;
+      text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
     }
 
     .expiry {
       font-size: 14px;
       color: #888;
       margin-bottom: 20px;
+      animation: slideUp 1.5s ease;
     }
 
     button {
@@ -61,12 +68,39 @@
       background: #3498db;
       color: white;
       cursor: pointer;
+      overflow: hidden;
+      position: relative;
       transition: background 0.3s, transform 0.2s;
     }
 
     button:hover {
       background: #2980b9;
       transform: scale(1.05);
+    }
+
+    button:focus::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: ripple 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      from {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.8;
+      }
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+      }
     }
 
     .footer {
@@ -106,8 +140,8 @@
     const key = urlParams.get('key') || 'Không có key';
     document.getElementById("keyDisplay").textContent = key;
 
-    // Tính thời gian hết hạn key (24h)
-    const createdAt = new Date(); // Thời điểm người dùng vào
+    // Thời gian hết hạn key sau 24h
+    const createdAt = new Date();
     const expiryDate = new Date(createdAt.getTime() + 24 * 60 * 60 * 1000);
 
     function updateExpiryCountdown() {
