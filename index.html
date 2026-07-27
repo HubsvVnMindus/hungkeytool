@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>H-TOOL TERMINAL PRO</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>H-TOOL TERMINAL PRO - BẢO MẬT TOÀN DIỆN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
+    :root {
+      --bg: #050505;
+      --card: #0a0a0a;
+      --green: #00ff41;
+      --green-dark: #00cc33;
+      --red: #ff3333;
+      --orange: #ffaa00;
+      --blue: #0099ff;
+      --text: #ccc;
     }
+    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; -moz-user-select: none; }
     body { 
       margin: 0; 
-      background: #050505; 
-      color: #00ff41; 
+      background: var(--bg); 
+      color: var(--green); 
       font-family: 'Fira Code', monospace; 
       min-height: 100vh; 
       display: flex; 
@@ -25,289 +29,287 @@
       overflow-x: hidden;
     }
     .container { 
-      background: #0a0a0a; 
-      border: 1px solid #00ff41; 
+      background: var(--card); 
+      border: 1px solid var(--green); 
       padding: 30px; 
       border-radius: 15px; 
-      box-shadow: 0 0 20px rgba(0, 255, 65, 0.2); 
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.15), inset 0 0 30px rgba(0, 255, 65, 0.02); 
       text-align: center; 
-      max-width: 500px; 
-      width: 90%; 
+      max-width: 520px; 
+      width: 95%;
+      position: relative;
     }
     h2 {
       font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      margin-bottom: 5px;
+      font-weight: 700;
+      margin-bottom: 0;
       letter-spacing: 2px;
+      font-size: 26px;
+      text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
     }
     .sub {
       font-size: 11px;
-      color: #00ff41aa;
+      color: #00ff4188;
       margin-bottom: 20px;
+      letter-spacing: 1px;
     }
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 15px 0 20px;
+    }
+    .step {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .step::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      width: 20px;
+      height: 1px;
+      background: #333;
+      transition: all 0.4s ease;
+    }
+    .step:last-child::after { display: none; }
+    .step.active { border-color: var(--green); background: rgba(0,255,65,0.1); box-shadow: 0 0 12px rgba(0,255,65,0.3); color: var(--green); }
+    .step.done { border-color: var(--green); background: var(--green); color: #000; }
+    .step.done::after { background: var(--green); }
+    .step.fail { border-color: var(--red); background: rgba(255,51,51,0.1); color: var(--red); }
     input { 
       width: 100%; 
-      padding: 12px; 
+      padding: 12px 15px; 
       background: #000; 
-      border: 1px solid #00ff41; 
-      border-radius: 5px; 
-      color: #00ff41; 
-      margin-bottom: 15px; 
+      border: 1px solid rgba(0,255,65,0.4); 
+      border-radius: 8px; 
+      color: var(--green); 
+      margin-bottom: 12px; 
       outline: none; 
       font-family: 'Fira Code', monospace;
+      font-size: 14px;
       transition: 0.3s;
     }
-    input:focus {
-      box-shadow: 0 0 10px #00ff4180;
-    }
+    input:focus { border-color: var(--green); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
+    input:disabled { background: #111; color: #555; border-color: #333; cursor: not-allowed; }
     button { 
-      padding: 12px 30px; 
-      background: #00ff41; 
+      width: 100%;
+      padding: 13px; 
+      background: var(--green); 
       color: #000; 
       border: none; 
-      border-radius: 5px; 
+      border-radius: 8px; 
       font-weight: 700; 
       cursor: pointer; 
       text-transform: uppercase; 
       font-family: 'Poppins', sans-serif;
-      transition: 0.3s;
+      font-size: 14px;
       letter-spacing: 1px;
-      width: 100%;
+      transition: 0.3s;
       margin: 5px 0;
     }
-    button:hover {
-      background: #00cc33;
-      box-shadow: 0 0 15px #00ff41;
-    }
-    button:disabled {
-      background: #555;
-      color: #999;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .btn-warning {
-      background: #ffaa00;
-      color: #000;
-    }
-    .btn-warning:hover {
-      background: #ff8800;
-    }
+    button:hover { background: var(--green-dark); box-shadow: 0 0 20px rgba(0,255,65,0.4); transform: translateY(-1px); }
+    button:disabled { background: #333; color: #666; cursor: not-allowed; box-shadow: none; transform: none; }
+    button:active { transform: scale(0.98); }
+    .btn-orange { background: var(--orange); color: #000; }
+    .btn-orange:hover { background: #ff8800; box-shadow: 0 0 20px rgba(255,170,0,0.4); }
+    .btn-outline { background: transparent; border: 1px solid var(--green); color: var(--green); }
+    .btn-outline:hover { background: rgba(0,255,65,0.1); }
+    .btn-sm { width: auto; padding: 8px 20px; font-size: 12px; display: inline-block; }
     .terminal-box { 
       display: none; 
       background: #000; 
-      border: 1px solid #00ff41; 
+      border: 1px solid rgba(0,255,65,0.3); 
       padding: 15px; 
-      margin: 20px 0; 
-      text-align: left; 
-      font-size: 12px; 
-      max-height: 250px; 
-      overflow-y: auto; 
-      position: relative; 
-      border-radius: 8px;
-    }
-    .terminal-line { 
-      margin-bottom: 5px; 
-      line-height: 1.6;
-      word-break: break-all;
-    }
-    .result-section { 
-      display: none; 
-      margin-top: 20px; 
-    }
-    .key { 
-      font-size: 16px; 
-      font-weight: bold; 
-      padding: 12px; 
-      border: 1px dashed #00ff41; 
       margin: 15px 0; 
+      text-align: left; 
+      font-size: 11px; 
+      max-height: 220px; 
+      overflow-y: auto; 
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      line-height: 1.8;
+    }
+    .terminal-line { word-break: break-all; }
+    .result-section { display: none; margin-top: 15px; }
+    .key-box { 
+      font-size: 15px; 
+      font-weight: 700; 
+      padding: 14px; 
+      border: 1px dashed var(--green); 
+      margin: 12px 0; 
       color: #fff; 
       word-break: break-all; 
       background: #000;
-      border-radius: 5px;
-    }
-    .ban-notice {
-      color: #ff3333;
-      font-weight: bold;
-      font-size: 18px;
-      padding: 20px;
-      border: 1px solid #ff3333;
-      background: #1a0000;
       border-radius: 8px;
+      letter-spacing: 1px;
     }
     .status-badge {
       display: inline-block;
-      padding: 5px 15px;
+      padding: 4px 12px;
       border-radius: 20px;
-      margin: 10px 0;
-      font-size: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 3px;
     }
-    .badge-success {
-      background: #00ff4122;
-      border: 1px solid #00ff41;
-      color: #00ff41;
+    .badge-success { background: rgba(0,255,65,0.1); border: 1px solid var(--green); color: var(--green); }
+    .badge-warning { background: rgba(255,170,0,0.1); border: 1px solid var(--orange); color: var(--orange); }
+    .badge-error { background: rgba(255,51,51,0.1); border: 1px solid var(--red); color: var(--red); }
+    .badge-info { background: rgba(0,153,255,0.1); border: 1px solid var(--blue); color: var(--blue); }
+    .spinner {
+      width: 35px; height: 35px;
+      border: 3px solid rgba(0,255,65,0.15);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 15px auto;
     }
-    .badge-warning {
-      background: #ffaa0022;
-      border: 1px solid #ffaa00;
-      color: #ffaa00;
-    }
-    .badge-error {
-      background: #ff333322;
-      border: 1px solid #ff3333;
-      color: #ff3333;
-    }
-    .badge-info {
-      background: #0099ff22;
-      border: 1px solid #0099ff;
-      color: #0099ff;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Overlay */
     #blockedOverlay {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      z-index: 9999;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.97);
+      z-index: 99999;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      color: #ff3333;
+      color: var(--red);
       text-align: center;
+      padding: 20px;
     }
-    .spinner {
-      border: 3px solid #00ff4133;
-      border-top: 3px solid #00ff41;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
+    #blockedOverlay h1 { font-size: 36px; margin-bottom: 10px; }
+    #blockedOverlay .countdown { font-size: 22px; color: var(--orange); margin: 15px 0; }
+    
+    /* Toast */
+    .toast {
+      position: fixed; top: 20px; right: 20px;
+      background: #000; border: 1px solid var(--green);
+      color: var(--green); padding: 12px 20px;
+      border-radius: 8px; font-size: 13px;
+      z-index: 9999; opacity: 0; transform: translateX(100%);
+      transition: all 0.3s ease;
+      max-width: 350px;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .toast.show { opacity: 1; transform: translateX(0); }
+    
+    /* Scrollbar */
+    .terminal-box::-webkit-scrollbar { width: 4px; }
+    .terminal-box::-webkit-scrollbar-track { background: #000; }
+    .terminal-box::-webkit-scrollbar-thumb { background: var(--green); border-radius: 2px; }
+    
+    /* Animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .step-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 15px 0;
-    }
-    .step {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 2px solid #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      transition: 0.5s;
-    }
-    .step.active {
-      border-color: #00ff41;
-      background: #00ff4111;
-      box-shadow: 0 0 10px #00ff4144;
-    }
-    .step.done {
-      border-color: #00ff41;
-      background: #00ff41;
-      color: #000;
-    }
-    .step.fail {
-      border-color: #ff3333;
-      background: #ff333311;
-      color: #ff3333;
+    .fade-in { animation: fadeInUp 0.4s ease forwards; }
+    .hidden { display: none !important; }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container { padding: 20px 15px; }
+      h2 { font-size: 20px; }
+      input { font-size: 12px; padding: 10px; }
+      button { font-size: 12px; padding: 10px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Block Overlay -->
   <div id="blockedOverlay">
-    <h1 style="font-size: 40px;">🚫 TRUY CẬP BỊ TỪ CHỐI</h1>
-    <p style="font-size: 18px; color: #ffaa00;">Phát hiện hành vi bypass hoặc tham số không hợp lệ</p>
-    <p id="countdownDisplay" style="font-size: 24px; color: #ff3333;"></p>
-    <p style="color: #888;">Vui lòng quay lại sau 3 ngày</p>
+    <h1>🚫 TRUY CẬP BỊ TỪ CHỐI</h1>
+    <p style="font-size:16px;color:var(--orange);">Phát hiện hành vi bypass / tham số không hợp lệ</p>
+    <div class="countdown" id="countdownDisplay"></div>
+    <p style="color:#888;font-size:13px;">Thiết bị của bạn sẽ bị khóa trong 3 ngày</p>
+    <p style="color:#555;font-size:11px;margin-top:20px;">Liên hệ Admin nếu đây là nhầm lẫn</p>
   </div>
 
+  <!-- Main Container -->
   <div class="container" id="mainContainer">
     <h2>⚡ H-TOOL TERMINAL</h2>
-    <p class="sub">BẢO MẬT LỚP 3 - XÁC THỰC LINK4M</p>
-    
-    <!-- Step Indicator -->
-    <div class="step-indicator">
-      <div class="step" id="step1">1</div>
+    <p class="sub">BẢO MẬT 3 LỚP • CHỐNG BYPASS • LINK4M</p>
+
+    <!-- Step Indicators -->
+    <div class="steps">
+      <div class="step active" id="step1">1</div>
       <div class="step" id="step2">2</div>
       <div class="step" id="step3">3</div>
     </div>
 
     <!-- Step 1: Link4m Verification -->
-    <div id="link4mSection">
-      <p style="color:#ffaa00; font-size:13px;">🔗 Step 1: Xác thực Link4m View...</p>
+    <div id="link4mSection" class="fade-in">
+      <p style="color:var(--orange);font-size:12px;">🔗 STEP 1: XÁC THỰC LINK4M</p>
       <div class="spinner" id="loadingSpinner"></div>
       <div id="link4mStatus"></div>
       <div id="link4mAction"></div>
     </div>
 
-    <!-- Step 2: Device ID -->
-    <div id="authSection" style="display:none;">
-      <div id="link4mConfirmed" style="margin-bottom: 15px;"></div>
-      <p style="color:#ffaa00; font-size:13px;">📱 Step 2: Nhập Device ID</p>
-      <input type="text" id="deviceId" placeholder="Nhập Mã thiết bị (Device ID)..." autocomplete="off">
-      <button onclick="startVerification()" id="verifyBtn">🔐 Xác Thực Thiết Bị</button>
+    <!-- Step 2: Device ID Input -->
+    <div id="authSection" class="hidden">
+      <div id="link4mConfirmed" style="margin-bottom:12px;"></div>
+      <p style="color:var(--orange);font-size:12px;">📱 STEP 2: NHẬP DEVICE ID</p>
+      <input type="text" id="deviceId" placeholder="Nhập Mã thiết bị (Device ID)..." autocomplete="off" spellcheck="false">
+      <button onclick="startVerification()" id="verifyBtn">🔐 XÁC THỰC THIẾT BỊ</button>
     </div>
 
-    <!-- Step 3: Terminal & Key -->
+    <!-- Step 3: Terminal & Result -->
     <div class="terminal-box" id="terminalBox"></div>
     <div class="result-section" id="resultSection">
-      <div style="font-size: 14px;">🔑 KEY ĐÃ KÍCH HOẠT:</div>
-      <div class="key" id="keyDisplay">...</div>
-      <button onclick="copyKey()">📋 COPY KEY</button>
+      <p style="font-size:13px;color:var(--green);">🔑 KEY ĐÃ KÍCH HOẠT:</p>
+      <div class="key-box" id="keyDisplay">...</div>
+      <button onclick="copyKey()" class="btn-orange">📋 COPY KEY</button>
+      <button onclick="resetAll()" class="btn-outline btn-sm" style="margin-top:8px;">🔄 KIỂM TRA LẠI</button>
     </div>
   </div>
 
   <script>
     // ==========================================
-    // CẤU HÌNH CHÍNH
+    // CONFIGURATION - SỬA Ở ĐÂY
     // ==========================================
-    
     const CONFIG = {
-      // === LINK4M CONFIG ===
+      // Link4m API
       link4m: {
-        apiKey: '6a620a7003c42e28f00e2158',           // API Key sếp gửi
-        apiEndpoint: 'https://link4m.co/api-shorten/v2', // Endpoint API
-        minViewTime: 10,                                // Thời gian xem tối thiểu (giây)
-        requireView: true,                              // Bắt buộc có view không?
-        
-        // Danh sách link đã được rút gọn (để verify)
-        verifiedLinks: [], // Sẽ tự động cập nhật
+        apiKey: '6a620a7003c42e28f00e2158',        // API Key Link4m
+        apiEndpoint: 'https://link4m.co/api-shorten/v2',
+        minViewTime: 10,                           // Thời gian xem tối thiểu (giây)
+        requireVerification: true,                 // Bắt buộc verify không?
       },
-      
-      // === BẢO MẬT ===
+      // Bảo mật
       security: {
-        salt: 'HTOOL_PRO_2026_SALT_KEY_X9',
-        blockDuration: 3 * 24 * 60 * 60 * 1000, // 3 ngày
-        maxReloads: 3,
+        salt: 'HTOOL_PRO_2026_SALT_KEY_X9',        // Khóa mã hóa (nên thay đổi)
+        blockDuration: 3 * 24 * 60 * 60 * 1000,    // 3 ngày
+        maxReloads: 3,                             // Số lần reload tối đa
         allowedDomains: ['hungkeytool.vercel.app', 'localhost', '127.0.0.1'],
-      }
+      },
+      // API JSONBin (danh sách banned)
+      jsonbin: {
+        url: 'https://api.jsonbin.io/v3/b/6a17d97221f9ee59d294044f/latest',
+        masterKey: '$2a$10$uykb8nItAhAj388Q3fsw4epeY0RR2RfMedSgg691/MCLzaiLgZEqa',
+      },
+      // Default key
+      defaultKey: 'HTOOL-2026-VIP-999',
     };
 
     // ==========================================
-    // HÀM MÃ HÓA/GIẢI MÃ
+    // UTILITY FUNCTIONS
     // ==========================================
+    const b64Encode = (str) => { try { return btoa(unescape(encodeURIComponent(str))); } catch(e) { return btoa(str); } };
+    const b64Decode = (str) => { try { return decodeURIComponent(escape(atob(str))); } catch(e) { return atob(str); } };
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const $ = (id) => document.getElementById(id);
     
-    function b64Encode(str) {
-      try { return btoa(unescape(encodeURIComponent(str))); } 
-      catch(e) { return btoa(str); }
-    }
-
-    function b64Decode(str) {
-      try { return decodeURIComponent(escape(atob(str))); } 
-      catch(e) { return atob(str); }
-    }
-
     function encryptData(text) {
       const salt = CONFIG.security.salt;
       let result = '';
@@ -326,385 +328,58 @@
           result += String.fromCharCode(decoded.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
         }
         return result;
-      } catch(e) {
-        return null;
-      }
+      } catch(e) { return null; }
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = $('toast');
+      toast.textContent = msg;
+      toast.style.color = type === 'error' ? 'var(--red)' : type === 'warning' ? 'var(--orange)' : 'var(--green)';
+      toast.style.borderColor = type === 'error' ? 'var(--red)' : type === 'warning' ? 'var(--orange)' : 'var(--green)';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function updateStep(num, status) {
+      const el = $(`step${num}`);
+      if (!el) return;
+      el.className = 'step ' + status;
     }
 
     // ==========================================
-    // ĐỌC THAM SỐ URL
+    // GET PARAMS FROM URL
     // ==========================================
-    
-    function getEncryptedParams() {
+    function getParams() {
       const urlParams = new URLSearchParams(window.location.search);
       
-      // Ưu tiên token mã hóa
-      const encryptedToken = urlParams.get('token');
-      if (encryptedToken) {
-        const decrypted = decryptData(encryptedToken);
+      // Try encrypted token first
+      const token = urlParams.get('token');
+      if (token) {
+        const decrypted = decryptData(decodeURIComponent(token));
         if (decrypted) {
           const parts = decrypted.split('|');
           if (parts.length === 3) {
-            return { hwid: parts[0], ip: parts[1], key: parts[2], valid: true, method: 'encrypted' };
+            return { hwid: parts[0], ip: parts[1], key: parts[2], valid: true, encrypted: true };
           }
         }
-        return { valid: false, reason: 'Token không hợp lệ' };
+        return { valid: false, reason: 'Token không hợp lệ hoặc đã bị chỉnh sửa' };
       }
       
-      // Fallback: tham số thô
+      // Fallback to raw params
       const hwid = urlParams.get('hwid');
       const ip = urlParams.get('ip');
       const key = urlParams.get('key');
       
       if (hwid && ip && key) {
-        console.warn('[!] URL không mã hóa - điểm yếu bảo mật');
-        return { hwid, ip, key, valid: true, method: 'raw' };
+        return { hwid, ip, key, valid: true, encrypted: false };
       }
       
-      return { valid: false, reason: 'Thiếu tham số' };
+      return { valid: false, reason: 'Thiếu tham số URL' };
     }
 
     // ==========================================
-    // 🆕 LINK4M VERIFICATION ENGINE (SIÊU CHỐNG BYPASS)
+    // BLOCK SYSTEM (3 NGÀY)
     // ==========================================
-    
-    class Link4mVerifier {
-      constructor() {
-        this.viewToken = null;
-        this.viewTimestamp = null;
-        this.verified = false;
-        this.fingerprint = null;
-      }
-      
-      // Tạo fingerprint duy nhất cho phiên
-      generateFingerprint() {
-        const components = [
-          navigator.userAgent,
-          navigator.language,
-          screen.width + 'x' + screen.height,
-          new Date().getTimezoneOffset(),
-          !!navigator.cookieEnabled,
-          !!navigator.onLine,
-          navigator.hardwareConcurrency || 'unknown',
-          navigator.deviceMemory || 'unknown',
-        ];
-        return b64Encode(components.join('|'));
-      }
-      
-      // 🆕 PHƯƠNG PHÁP 1: Verify qua Referrer (Cơ bản)
-      checkReferrer() {
-        const referrer = document.referrer;
-        if (!referrer) return { valid: false, reason: 'Không có referrer' };
-        
-        const isFromLink4m = referrer.includes('link4m.co') || 
-                             referrer.includes('link4m.com');
-        
-        if (isFromLink4m) {
-          return { 
-            valid: true, 
-            method: 'referrer',
-            referrer: referrer,
-            timestamp: Date.now()
-          };
-        }
-        
-        return { valid: false, reason: 'Referrer không phải Link4m' };
-      }
-      
-      // 🆕 PHƯƠNG PHÁP 2: Verify thời gian xem (Trung bình)
-      checkViewTime() {
-        const loadTime = parseInt(sessionStorage.getItem('l4m_load_time') || '0');
-        if (!loadTime) {
-          // Lần đầu load - ghi nhận thời gian
-          sessionStorage.setItem('l4m_load_time', Date.now().toString());
-          return { valid: false, reason: 'Đang tính thời gian xem...' };
-        }
-        
-        const viewDuration = Math.floor((Date.now() - loadTime) / 1000);
-        
-        if (viewDuration >= CONFIG.link4m.minViewTime) {
-          sessionStorage.setItem('l4m_view_verified', 'true');
-          return { 
-            valid: true, 
-            method: 'viewtime',
-            duration: viewDuration,
-            timestamp: Date.now()
-          };
-        }
-        
-        return { 
-          valid: false, 
-          reason: `Cần xem thêm ${CONFIG.link4m.minViewTime - viewDuration}s`,
-          remaining: CONFIG.link4m.minViewTime - viewDuration
-        };
-      }
-      
-      // 🆕 PHƯƠNG PHÁP 3: Verify qua token Link4m (Cao cấp)
-      async verifyWithToken() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const l4mToken = urlParams.get('l4m_verify');
-        
-        if (!l4mToken) {
-          return { valid: false, reason: 'Không có token Link4m' };
-        }
-        
-        try {
-          // Giải mã token (giả sử Link4m mã hóa bằng API key của bạn)
-          const decrypted = decryptData(l4mToken);
-          if (!decrypted) {
-            return { valid: false, reason: 'Token không hợp lệ' };
-          }
-          
-          const tokenData = JSON.parse(decrypted);
-          
-          // Kiểm tra thời gian token (chỉ valid trong 5 phút)
-          const tokenAge = Date.now() - tokenData.timestamp;
-          if (tokenAge > 5 * 60 * 1000) {
-            return { valid: false, reason: 'Token đã hết hạn (quá 5 phút)' };
-          }
-          
-          // Kiểm tra fingerprint
-          const currentFingerprint = this.generateFingerprint();
-          if (tokenData.fingerprint !== currentFingerprint) {
-            return { valid: false, reason: 'Fingerprint không khớp - bypass detected!' };
-          }
-          
-          return {
-            valid: true,
-            method: 'token',
-            linkId: tokenData.linkId,
-            viewTime: tokenData.viewTime,
-            timestamp: tokenData.timestamp
-          };
-          
-        } catch(e) {
-          return { valid: false, reason: 'Lỗi giải mã token' };
-        }
-      }
-      
-      // 🆕 PHƯƠNG PHÁP 4: Verify qua API Link4m (Siêu cao cấp)
-      async verifyWithAPI(linkId) {
-        try {
-          // Gọi API Link4m để kiểm tra thông tin link
-          const apiUrl = `${CONFIG.link4m.apiEndpoint}?api=${CONFIG.link4m.apiKey}&url=${encodeURIComponent(window.location.href)}`;
-          const response = await fetch(apiUrl);
-          const data = await response.json();
-          
-          // Nếu API trả về thành công, nghĩa là link hợp lệ
-          if (data.status === 'success') {
-            // Lưu link đã verify
-            CONFIG.link4m.verifiedLinks.push(data.shortenedUrl);
-            
-            return {
-              valid: true,
-              method: 'api',
-              shortenedUrl: data.shortenedUrl,
-              timestamp: Date.now()
-            };
-          }
-          
-          return { valid: false, reason: 'API không xác nhận link này' };
-          
-        } catch(e) {
-          console.log('[Link4m API] Không thể kết nối:', e.message);
-          return { valid: false, reason: 'Không thể kết nối API Link4m' };
-        }
-      }
-      
-      // 🆕 PHƯƠNG PHÁP 5: Check Cookie/Session (Đã verify trước đó)
-      checkSession() {
-        const sessionVerified = sessionStorage.getItem('l4m_view_verified');
-        const cookieVerified = this.getCookie('l4m_verified');
-        
-        if (sessionVerified === 'true' || cookieVerified === 'true') {
-          return {
-            valid: true,
-            method: 'session',
-            timestamp: Date.now()
-          };
-        }
-        
-        return { valid: false, reason: 'Chưa có session' };
-      }
-      
-      // 🆕 PHƯƠNG PHÁP 6: Verify bằng Proof-of-Work (Chống bot)
-      async verifyWithPoW() {
-        // Tạo challenge ngẫu nhiên
-        const challenge = Math.random().toString(36).substring(2, 15);
-        const difficulty = 4; // Số số 0 leading required
-        
-        const powResult = await this.solvePoW(challenge, difficulty);
-        
-        if (powResult) {
-          sessionStorage.setItem('l4m_pow_solved', 'true');
-          return {
-            valid: true,
-            method: 'pow',
-            challenge: challenge,
-            solution: powResult
-          };
-        }
-        
-        return { valid: false, reason: 'PoW không giải được' };
-      }
-      
-      async solvePoW(challenge, difficulty) {
-        return new Promise((resolve) => {
-          const worker = new Worker(URL.createObjectURL(new Blob([`
-            self.onmessage = function(e) {
-              const { challenge, difficulty } = e.data;
-              const target = '0'.repeat(difficulty);
-              let nonce = 0;
-              
-              while (true) {
-                const hash = self.crypto.subtle ? 
-                  self.crypto.subtle.digest('SHA-256', new TextEncoder().encode(challenge + nonce)) :
-                  null;
-                
-                // Fallback simple hash
-                let hashStr = '';
-                for (let i = 0; i < 64; i++) {
-                  hashStr += Math.floor(Math.random() * 16).toString(16);
-                }
-                
-                if (hashStr.startsWith(target)) {
-                  self.postMessage({ success: true, nonce: nonce, hash: hashStr });
-                  return;
-                }
-                nonce++;
-                
-                if (nonce > 100000) {
-                  self.postMessage({ success: false });
-                  return;
-                }
-              }
-            };
-          `], { type: 'text/javascript' })));
-          
-          worker.postMessage({ challenge, difficulty });
-          
-          worker.onmessage = (e) => {
-            worker.terminate();
-            if (e.data.success) {
-              resolve(e.data);
-            } else {
-              resolve(null);
-            }
-          };
-          
-          // Timeout sau 10 giây
-          setTimeout(() => {
-            worker.terminate();
-            resolve(null);
-          }, 10000);
-        });
-      }
-      
-      // Tổng hợp tất cả phương pháp verify
-      async verifyAll() {
-        const results = [];
-        
-        // 1. Check Session (Nhanh nhất)
-        const sessionResult = this.checkSession();
-        if (sessionResult.valid) {
-          return { ...sessionResult, priority: 'instant' };
-        }
-        results.push({ method: 'session', ...sessionResult });
-        
-        // 2. Check Referrer
-        const referrerResult = this.checkReferrer();
-        if (referrerResult.valid) {
-          // Có referrer + check thời gian xem
-          const viewResult = this.checkViewTime();
-          if (viewResult.valid) {
-            this.setCookie('l4m_verified', 'true', 1); // Cookie 1 ngày
-            return { ...referrerResult, viewTime: viewResult.duration, priority: 'high' };
-          }
-          return viewResult; // Trả về thời gian còn thiếu
-        }
-        results.push({ method: 'referrer', ...referrerResult });
-        
-        // 3. Check Token (nếu có)
-        const tokenResult = await this.verifyWithToken();
-        if (tokenResult.valid) {
-          this.setCookie('l4m_verified', 'true', 1);
-          return { ...tokenResult, priority: 'high' };
-        }
-        results.push({ method: 'token', ...tokenResult });
-        
-        // 4. Check API (nếu có linkId)
-        const urlParams = new URLSearchParams(window.location.search);
-        const linkId = urlParams.get('link_id');
-        if (linkId) {
-          const apiResult = await this.verifyWithAPI(linkId);
-          if (apiResult.valid) {
-            this.setCookie('l4m_verified', 'true', 1);
-            return { ...apiResult, priority: 'high' };
-          }
-          results.push({ method: 'api', ...apiResult });
-        }
-        
-        // 5. Proof-of-Work (Chống bot)
-        if (CONFIG.link4m.requireView) {
-          const powResult = await this.verifyWithPoW();
-          if (powResult.valid) {
-            return { ...powResult, priority: 'medium' };
-          }
-          results.push({ method: 'pow', ...powResult });
-        }
-        
-        // Tất cả đều fail
-        return { 
-          valid: false, 
-          reason: 'Tất cả phương pháp xác thực đều thất bại',
-          details: results,
-          priority: 'none'
-        };
-      }
-      
-      // Helper: Set cookie
-      setCookie(name, value, days) {
-        const expires = new Date(Date.now() + days * 864e5).toUTCString();
-        document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Strict`;
-      }
-      
-      // Helper: Get cookie
-      getCookie(name) {
-        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        return match ? match[2] : null;
-      }
-      
-      // Tạo link rút gọn qua API Link4m
-      async createShortLink(destinationUrl) {
-        try {
-          const apiUrl = `${CONFIG.link4m.apiEndpoint}?api=${CONFIG.link4m.apiKey}&url=${encodeURIComponent(destinationUrl)}`;
-          const response = await fetch(apiUrl);
-          const data = await response.json();
-          
-          if (data.status === 'success') {
-            return {
-              success: true,
-              shortUrl: data.shortenedUrl
-            };
-          }
-          
-          return { success: false, message: data.message || 'Unknown error' };
-        } catch(e) {
-          return { success: false, message: e.message };
-        }
-      }
-    }
-
-    // ==========================================
-    // KHỞI TẠO VERIFIER
-    // ==========================================
-    
-    const verifier = new Link4mVerifier();
-    
-    // ==========================================
-    // KIỂM TRA & XỬ LÝ BYPASS
-    // ==========================================
-    
     function isBlocked() {
       const blockData = localStorage.getItem('htool_blocked');
       if (!blockData) return false;
@@ -713,6 +388,7 @@
         const block = JSON.parse(blockData);
         if (Date.now() > block.expiry) {
           localStorage.removeItem('htool_blocked');
+          sessionStorage.removeItem('htool_reload');
           return false;
         }
         return block;
@@ -722,401 +398,621 @@
       }
     }
 
-    function applyBlock(reason = '') {
+    function applyBlock(reason = 'Bypass detected') {
+      const existing = JSON.parse(localStorage.getItem('htool_blocked') || '{}');
       const blockData = {
         reason: reason,
-        attempts: ((JSON.parse(localStorage.getItem('htool_blocked') || '{}')).attempts || 0) + 1,
+        attempts: (existing.attempts || 0) + 1,
         expiry: Date.now() + CONFIG.security.blockDuration,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        fingerprint: generateFingerprint(),
       };
       localStorage.setItem('htool_blocked', JSON.stringify(blockData));
       
-      // Gửi log về server (nếu có)
-      this.sendBlockLog(blockData);
+      // Log security event
+      const logs = JSON.parse(localStorage.getItem('htool_security_logs') || '[]');
+      logs.push({ ...blockData, userAgent: navigator.userAgent.substring(0, 100), url: window.location.href });
+      localStorage.setItem('htool_security_logs', JSON.stringify(logs.slice(-30)));
       
       return blockData;
     }
 
-    function sendBlockLog(blockData) {
-      // Có thể gửi về webhook Discord/Telegram để sếp biết
-      const logData = {
-        ...blockData,
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        referrer: document.referrer,
-        time: new Date().toISOString()
-      };
-      
-      // Lưu log local
-      const logs = JSON.parse(localStorage.getItem('htool_security_logs') || '[]');
-      logs.push(logData);
-      localStorage.setItem('htool_security_logs', JSON.stringify(logs.slice(-50))); // Giữ 50 log gần nhất
-      
-      console.warn('[SECURITY] Block applied:', logData);
+    function generateFingerprint() {
+      const components = [
+        navigator.userAgent,
+        navigator.language,
+        screen.width + 'x' + screen.height,
+        new Date().getTimezoneOffset(),
+        navigator.hardwareConcurrency || 'unknown',
+      ];
+      return b64Encode(components.join('|')).substring(0, 32);
     }
 
-    function handleBypassDetected(reasons = []) {
-      console.error('[SECURITY] BYPASS DETECTED:', reasons);
+    function showBlockOverlay(blockData) {
+      $('blockedOverlay').style.display = 'flex';
+      $('mainContainer').style.display = 'none';
       
-      const blockInfo = applyBlock(reasons.join('; '));
+      const updateCountdown = () => {
+        const remaining = blockData.expiry - Date.now();
+        if (remaining <= 0) {
+          $('countdownDisplay').textContent = '✅ Đã hết thời gian khóa. Tải lại trang.';
+          clearInterval(window._cdInterval);
+          return;
+        }
+        const d = Math.floor(remaining / 86400000);
+        const h = Math.floor((remaining % 86400000) / 3600000);
+        const m = Math.floor((remaining % 3600000) / 60000);
+        $('countdownDisplay').textContent = `⏳ Còn: ${d} ngày ${h} giờ ${m} phút`;
+      };
       
-      document.getElementById('blockedOverlay').style.display = 'flex';
-      document.getElementById('mainContainer').style.display = 'none';
+      updateCountdown();
+      window._cdInterval = setInterval(updateCountdown, 60000);
       
-      updateCountdown(blockInfo.expiry);
-      
-      // Khóa mọi thứ
-      document.querySelectorAll('input, button').forEach(el => {
-        el.disabled = true;
-        if (el.tagName === 'INPUT') el.value = '';
-      });
-      
-      // Chặn tất cả phím tắt
-      document.addEventListener('keydown', e => {
-        e.preventDefault();
-        return false;
-      }, true);
-      
+      // Disable everything
+      document.querySelectorAll('input, button').forEach(el => el.disabled = true);
+      document.addEventListener('keydown', e => e.preventDefault(), true);
       document.addEventListener('contextmenu', e => e.preventDefault(), true);
     }
 
-    function getRemainingTime(expiry) {
-      const remaining = expiry - Date.now();
-      if (remaining <= 0) return 'Hết hạn';
-      
-      const days = Math.floor(remaining / 86400000);
-      const hours = Math.floor((remaining % 86400000) / 3600000);
-      const minutes = Math.floor((remaining % 3600000) / 60000);
-      
-      return `${days} ngày ${hours} giờ ${minutes} phút`;
-    }
-
-    function updateCountdown(expiry) {
-      const el = document.getElementById('countdownDisplay');
-      if (!el) return;
-      
-      const update = () => {
-        const remaining = getRemainingTime(expiry);
-        el.textContent = `⏳ Còn: ${remaining}`;
-        
-        if (Date.now() > expiry) {
-          el.textContent = '✅ Đã hết khóa - Tải lại trang';
-          clearInterval(window._countdownInterval);
-        }
-      };
-      
-      update();
-      window._countdownInterval = setInterval(update, 60000);
-    }
-
     // ==========================================
-    // MAIN FLOW
+    // BYPASS DETECTION
     // ==========================================
-    
-    async function initApp() {
-      // Check block
-      if (isBlocked()) {
-        const block = isBlocked();
-        document.getElementById('blockedOverlay').style.display = 'flex';
-        document.getElementById('mainContainer').style.display = 'none';
-        updateCountdown(block.expiry);
-        return;
+    function detectBypass() {
+      const checks = [];
+      
+      // Domain check
+      if (!CONFIG.security.allowedDomains.some(d => window.location.hostname.includes(d))) {
+        checks.push('Invalid domain: ' + window.location.hostname);
       }
       
-      // Check domain
-      const currentHost = window.location.hostname;
-      if (!CONFIG.security.allowedDomains.some(d => currentHost.includes(d))) {
-        handleBypassDetected(['Domain không hợp lệ: ' + currentHost]);
-        return;
-      }
-      
-      // Check iframe
+      // Iframe check
       if (window.self !== window.top) {
-        handleBypassDetected(['Phát hiện nhúng iframe']);
-        return;
+        checks.push('Iframe embedding detected');
       }
       
-      // Check reload count
+      // URL params check
+      if (window.location.search.length > 0) {
+        const params = getParams();
+        if (!params.valid) {
+          checks.push('Invalid URL parameters: ' + (params.reason || 'unknown'));
+        }
+      }
+      
+      // Reload count
       let reloadCount = parseInt(sessionStorage.getItem('htool_reload') || '0');
       reloadCount++;
       sessionStorage.setItem('htool_reload', reloadCount.toString());
       if (reloadCount > CONFIG.security.maxReloads) {
-        handleBypassDetected(['Reload quá nhiều lần']);
-        return;
+        checks.push('Excessive reloads: ' + reloadCount);
       }
       
-      // === BẮT ĐẦU VERIFY LINK4M ===
-      updateStep(1, 'active');
-      
-      const verifyResult = await verifier.verifyAll();
-      
-      if (verifyResult.valid) {
-        // ✅ LINK4M OK
-        updateStep(1, 'done');
-        showAuthSection(verifyResult);
-      } else {
-        // ❌ Cần xác thực
-        updateStep(1, 'fail');
-        showLink4mRequired(verifyResult);
+      return checks;
+    }
+
+    function handleBypass(reasons) {
+      console.error('🛡️ [SECURITY] Bypass detected:', reasons);
+      const blockData = applyBlock(reasons.join('; '));
+      showBlockOverlay(blockData);
+    }
+
+    // ==========================================
+    // LINK4M VERIFICATION
+    // ==========================================
+    class Link4mVerifier {
+      constructor() {
+        this.fingerprint = generateFingerprint();
       }
-    }
-    
-    function updateStep(step, status) {
-      const el = document.getElementById(`step${step}`);
-      if (!el) return;
-      el.className = 'step ' + status;
-    }
-    
-    function showAuthSection(verifyResult) {
-      document.getElementById('link4mSection').style.display = 'none';
-      document.getElementById('authSection').style.display = 'block';
       
-      document.getElementById('link4mConfirmed').innerHTML = `
-        <span class="status-badge badge-success">✅ Link4m Verified</span>
-        <span class="status-badge badge-info" style="margin-left:5px;">${verifyResult.method}</span>
-        <p style="font-size:10px; color:#888;">View time: ${verifyResult.viewTime || verifyResult.duration || 'N/A'}s</p>
-      `;
-      
-      updateStep(2, 'active');
-      
-      // Tự động điền Device ID nếu có
-      const params = getEncryptedParams();
-      if (params.valid && params.hwid) {
-        document.getElementById('deviceId').value = params.hwid;
-        window.__htoolKey = params.key;
+      // Method 1: Check referrer
+      checkReferrer() {
+        const ref = document.referrer;
+        if (!ref) return null;
+        
+        const isLink4m = ref.includes('link4m.co') || ref.includes('link4m.com');
+        if (isLink4m) {
+          return { method: 'referrer', valid: true, source: ref };
+        }
+        return null;
       }
-    }
-    
-    function showLink4mRequired(verifyResult) {
-      const statusDiv = document.getElementById('link4mStatus');
-      const actionDiv = document.getElementById('link4mAction');
-      const spinner = document.getElementById('loadingSpinner');
       
-      spinner.style.display = 'none';
+      // Method 2: Check view time
+      checkViewTime() {
+        const loadTime = sessionStorage.getItem('l4m_load_time');
+        if (!loadTime) {
+          sessionStorage.setItem('l4m_load_time', Date.now().toString());
+          return { method: 'viewtime', valid: false, remaining: CONFIG.link4m.minViewTime };
+        }
+        
+        const elapsed = Math.floor((Date.now() - parseInt(loadTime)) / 1000);
+        if (elapsed >= CONFIG.link4m.minViewTime) {
+          sessionStorage.setItem('l4m_verified', 'true');
+          return { method: 'viewtime', valid: true, elapsed };
+        }
+        
+        return { method: 'viewtime', valid: false, remaining: CONFIG.link4m.minViewTime - elapsed };
+      }
       
-      if (verifyResult.remaining) {
-        // Cần đợi thêm thời gian
-        statusDiv.innerHTML = `
-          <span class="status-badge badge-warning">⏳ Đang tính thời gian xem...</span>
-          <p style="font-size:12px; color:#ffaa00;">
-            Vui lòng đợi thêm <b>${verifyResult.remaining}s</b>
-          </p>
-        `;
+      // Method 3: Check session
+      checkSession() {
+        if (sessionStorage.getItem('l4m_verified') === 'true') {
+          return { method: 'session', valid: true };
+        }
+        return null;
+      }
+      
+      // Method 4: Check proof-of-work
+      async checkPoW() {
+        const solved = sessionStorage.getItem('l4m_pow');
+        if (solved === 'true') {
+          return { method: 'pow', valid: true };
+        }
         
-        // Tự động retry sau thời gian còn lại
-        setTimeout(() => {
-          window.location.reload();
-        }, (verifyResult.remaining + 1) * 1000);
+        // Simple PoW challenge
+        const challenge = Math.random().toString(36).substring(2, 10);
+        const startTime = Date.now();
         
-        actionDiv.innerHTML = `
-          <button onclick="window.location.reload()" class="btn-warning">
-            🔄 KIỂM TRA LẠI (${verifyResult.remaining}s)
-          </button>
-        `;
+        // Simulate work (0.5-2 seconds)
+        await sleep(500 + Math.random() * 1500);
         
-        // Countdown button
-        let remaining = verifyResult.remaining;
-        const countdownInterval = setInterval(() => {
-          remaining--;
-          const btn = actionDiv.querySelector('button');
-          if (btn && remaining > 0) {
-            btn.textContent = `🔄 KIỂM TRA LẠI (${remaining}s)`;
+        sessionStorage.setItem('l4m_pow', 'true');
+        sessionStorage.setItem('l4m_pow_time', Date.now().toString());
+        
+        return { method: 'pow', valid: true, challenge, time: Date.now() - startTime };
+      }
+      
+      // Main verify
+      async verify() {
+        const results = [];
+        
+        // 1. Session (instant)
+        const session = this.checkSession();
+        if (session) return { ...session, priority: 'instant', allMethods: [session] };
+        
+        // 2. Referrer + ViewTime
+        const referrer = this.checkReferrer();
+        const viewTime = this.checkViewTime();
+        
+        if (referrer && viewTime.valid) {
+          sessionStorage.setItem('l4m_verified', 'true');
+          return { ...referrer, elapsed: viewTime.elapsed, priority: 'high', allMethods: [referrer, viewTime] };
+        }
+        
+        if (viewTime.valid === false && viewTime.remaining > 0) {
+          return { valid: false, reason: 'need_more_time', remaining: viewTime.remaining, allMethods: [viewTime] };
+        }
+        
+        // 3. Proof-of-Work (fallback)
+        if (CONFIG.link4m.requireVerification) {
+          const pow = await this.checkPoW();
+          if (pow.valid) {
+            sessionStorage.setItem('l4m_verified', 'true');
+            return { ...pow, priority: 'medium', allMethods: [...results, pow] };
           }
-          if (remaining <= 0) {
-            clearInterval(countdownInterval);
-            window.location.reload();
-          }
-        }, 1000);
+        }
         
-      } else {
-        // Cần truy cập qua Link4m
-        statusDiv.innerHTML = `
-          <span class="status-badge badge-warning">⚠️ Cần xác thực qua Link4m</span>
-          <p style="font-size:11px; color:#ffaa00; margin-top:8px;">
-            ${verifyResult.reason || 'Vui lòng truy cập qua link rút gọn Link4m'}
-          </p>
-        `;
-        
-        // Tạo link Link4m
-        verifier.createShortLink(window.location.href).then(result => {
-          if (result.success) {
-            actionDiv.innerHTML = `
-              <button onclick="window.location.href='${result.shortUrl}'" class="btn-warning">
-                🔗 TRUY CẬP QUA LINK4M
-              </button>
-              <p style="font-size:10px; color:#888; margin-top:8px;">
-                Link: ${result.shortUrl}
-              </p>
-            `;
-          } else {
-            actionDiv.innerHTML = `
-              <p style="color:#ff3333; font-size:11px;">❌ Không thể tạo link. Liên hệ Admin.</p>
-            `;
-          }
-        });
-        
-        // Fallback nếu không bắt buộc
-        if (!CONFIG.link4m.requireView) {
-          actionDiv.innerHTML += `
-            <button onclick="skipVerification()" style="background:#333; color:#888; margin-top:8px;">
-              ⏭️ Bỏ qua (Không khuyến khích)
-            </button>
-          `;
+        // All failed
+        return { valid: false, reason: 'all_failed', allMethods: results };
+      }
+      
+      // Create short link via API
+      async createShortLink(longUrl) {
+        try {
+          const apiUrl = `${CONFIG.link4m.apiEndpoint}?api=${CONFIG.link4m.apiKey}&url=${encodeURIComponent(longUrl)}`;
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+          return data.status === 'success' ? data.shortenedUrl : null;
+        } catch(e) {
+          console.error('Link4m API error:', e);
+          return null;
         }
       }
     }
-    
-    function skipVerification() {
-      sessionStorage.setItem('l4m_view_verified', 'true');
-      document.cookie = 'l4m_verified=true; path=/; max-age=86400; SameSite=Strict';
+
+    // ==========================================
+    // MAIN APPLICATION FLOW
+    // ==========================================
+    const verifier = new Link4mVerifier();
+    let appKey = null;
+
+    async function initApp() {
+      // 1. Check if blocked
+      const blockData = isBlocked();
+      if (blockData) {
+        showBlockOverlay(blockData);
+        return;
+      }
       
-      document.getElementById('link4mSection').style.display = 'none';
-      document.getElementById('authSection').style.display = 'block';
-      document.getElementById('link4mConfirmed').innerHTML = `
-        <span class="status-badge badge-warning">⚠️ Đã bỏ qua xác thực</span>
-      `;
+      // 2. Check bypass
+      const bypassChecks = detectBypass();
+      if (bypassChecks.length > 0) {
+        handleBypass(bypassChecks);
+        return;
+      }
       
-      updateStep(1, 'done');
-      updateStep(2, 'active');
+      // 3. Get URL params
+      const params = getParams();
+      if (params.valid) {
+        appKey = params.key;
+        // Pre-fill device ID
+        $('deviceId').value = params.hwid;
+        console.log('✅ [INFO] URL params loaded:', params.encrypted ? 'ENCRYPTED' : 'RAW');
+      }
       
-      const params = getEncryptedParams();
-      if (params.valid && params.hwid) {
-        document.getElementById('deviceId').value = params.hwid;
-        window.__htoolKey = params.key;
+      // 4. Verify Link4m
+      updateStep(1, 'active');
+      
+      const verifyResult = await verifier.verify();
+      
+      if (verifyResult.valid) {
+        // Link4m OK -> Show auth section
+        onLink4mSuccess(verifyResult);
+      } else if (verifyResult.reason === 'need_more_time') {
+        // Need to wait
+        onLink4mWaiting(verifyResult);
+      } else {
+        // Need to go through Link4m
+        onLink4mRequired(verifyResult);
       }
     }
 
-    // ==========================================
-    // XÁC THỰC THIẾT BỊ (Giữ nguyên logic cũ)
-    // ==========================================
-    
-    async function startVerification() {
-      const devId = document.getElementById("deviceId").value.trim();
-      if (!devId) { alert("⚠️ Nhập ID thiết bị!"); return; }
+    function onLink4mSuccess(result) {
+      $('loadingSpinner').style.display = 'none';
+      $('link4mStatus').innerHTML = `
+        <span class="status-badge badge-success">✅ Link4m Verified</span>
+        <span class="status-badge badge-info">${result.method || 'OK'}</span>
+        ${result.elapsed ? `<span style="font-size:10px;color:#888;"> (${result.elapsed}s)</span>` : ''}
+      `;
+      
+      updateStep(1, 'done');
+      
+      // Show device ID input
+      setTimeout(() => {
+        $('link4mSection').style.display = 'none';
+        $('authSection').classList.remove('hidden');
+        $('authSection').classList.add('fade-in');
+        $('link4mConfirmed').innerHTML = `
+          <span class="status-badge badge-success">✅ Đã xác thực Link4m</span>
+        `;
+        updateStep(2, 'active');
+      }, 500);
+    }
 
-      document.getElementById("authSection").style.display = "none";
+    function onLink4mWaiting(result) {
+      $('loadingSpinner').style.display = 'none';
+      $('link4mStatus').innerHTML = `
+        <span class="status-badge badge-warning">⏳ Đang đếm thời gian xem...</span>
+        <p style="font-size:12px;color:var(--orange);margin-top:8px;">
+          Vui lòng đợi <b id="countdownTimer">${result.remaining}</b> giây
+        </p>
+      `;
+      
+      let remaining = result.remaining;
+      const timerEl = $('countdownTimer');
+      const interval = setInterval(() => {
+        remaining--;
+        if (timerEl) timerEl.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(interval);
+          window.location.reload();
+        }
+      }, 1000);
+      
+      $('link4mAction').innerHTML = `
+        <button onclick="window.location.reload()" class="btn-orange">
+          🔄 KIỂM TRA LẠI (${result.remaining}s)
+        </button>
+      `;
+    }
+
+    async function onLink4mRequired(result) {
+      $('loadingSpinner').style.display = 'none';
+      $('link4mStatus').innerHTML = `
+        <span class="status-badge badge-warning">⚠️ Cần truy cập qua Link4m</span>
+        <p style="font-size:11px;color:#888;margin-top:8px;">
+          Vui lòng sử dụng link rút gọn Link4m để truy cập
+        </p>
+      `;
+      
+      // Try to create short link
+      const currentUrl = window.location.href;
+      const shortLink = await verifier.createShortLink(currentUrl);
+      
+      if (shortLink) {
+        $('link4mAction').innerHTML = `
+          <button onclick="window.location.href='${shortLink}'" class="btn-orange">
+            🔗 TRUY CẬP QUA LINK4M
+          </button>
+          <p style="font-size:10px;color:#555;margin-top:8px;">
+            ${shortLink}
+          </p>
+        `;
+      } else {
+        $('link4mAction').innerHTML = `
+          <button onclick="window.location.href='https://link4m.com'" class="btn-orange">
+            🔗 VÀO LINK4M
+          </button>
+          <p style="font-size:10px;color:#888;margin-top:8px;">
+            Sau đó truy cập lại tool qua link rút gọn
+          </p>
+        `;
+      }
+      
+      // Skip button (if not strict)
+      if (!CONFIG.link4m.requireVerification) {
+        $('link4mAction').innerHTML += `
+          <button onclick="skipVerification()" class="btn-outline btn-sm" style="margin-top:10px;display:block;width:100%;">
+            ⏭️ Bỏ qua (Không khuyến khích)
+          </button>
+        `;
+      }
+      
+      updateStep(1, 'fail');
+    }
+
+    function skipVerification() {
+      sessionStorage.setItem('l4m_verified', 'true');
+      sessionStorage.setItem('l4m_pow', 'true');
+      $('link4mSection').style.display = 'none';
+      $('authSection').classList.remove('hidden');
+      $('link4mConfirmed').innerHTML = '<span class="status-badge badge-warning">⚠️ Đã bỏ qua xác thực Link4m</span>';
+      updateStep(1, 'done');
+      updateStep(2, 'active');
+    }
+
+    // ==========================================
+    // DEVICE VERIFICATION
+    // ==========================================
+    async function startVerification() {
+      const devId = $('deviceId').value.trim();
+      if (!devId) {
+        showToast('⚠️ Vui lòng nhập Device ID!', 'warning');
+        return;
+      }
+      
+      // Double-check Link4m
+      if (CONFIG.link4m.requireVerification && sessionStorage.getItem('l4m_verified') !== 'true') {
+        showToast('⚠️ Cần xác thực Link4m trước!', 'warning');
+        $('link4mSection').style.display = 'block';
+        $('authSection').classList.add('hidden');
+        return;
+      }
+      
+      // Hide auth, show terminal
+      $('authSection').style.display = 'none';
       updateStep(2, 'done');
       updateStep(3, 'active');
       
-      const terminalBox = document.getElementById("terminalBox");
-      terminalBox.style.display = "block";
-      terminalBox.innerHTML = '';
-
+      const terminal = $('terminalBox');
+      terminal.style.display = 'block';
+      terminal.innerHTML = '';
+      
+      // Terminal logs
       const logs = [
-        "> 🔗 Kết nối máy chủ bảo mật...",
-        "> 🛡️ Xác thực chữ ký số...",
-        "> 📡 Kiểm tra dữ liệu..."
+        '> 🔗 Đang kết nối máy chủ bảo mật...',
+        '> 🛡️ Khởi tạo kết nối SSL/TLS...',
+        '> 📡 Xác thực chữ ký số...',
+        '> 🔐 Kiểm tra mã hóa dữ liệu...',
       ];
       
-      for (let log of logs) {
-        await typeLog(terminalBox, log, 500);
-        await sleep(800);
+      for (const log of logs) {
+        await typeLog(terminal, log, 30);
+        await sleep(600);
       }
-
+      
       try {
-        await typeLog(terminalBox, "> 🌐 Truy vấn database...", 300);
-        await sleep(1000);
+        await typeLog(terminal, '> 🌐 Đang truy vấn cơ sở dữ liệu...', 30);
+        await sleep(800);
         
-        const response = await fetch('https://api.jsonbin.io/v3/b/6a17d97221f9ee59d294044f/latest', {
-          headers: { 'X-Master-Key': '$2a$10$uykb8nItAhAj388Q3fsw4epeY0RR2RfMedSgg691/MCLzaiLgZEqa' }
+        const response = await fetch(CONFIG.jsonbin.url, {
+          headers: { 'X-Master-Key': CONFIG.jsonbin.masterKey }
         });
+        
+        if (!response.ok) throw new Error('API Error: ' + response.status);
         
         const data = await response.json();
         const bannedList = data.record?.banned_ips || [];
         
+        await typeLog(terminal, '> ✅ Dữ liệu đã được tải về', 30);
+        await sleep(500);
+        
+        // Check ban
         if (bannedList.includes(devId)) {
-          terminalBox.innerHTML += `<div style="color:#ff3333;font-weight:bold;">[!] ⛔ THIẾT BỊ ${devId} BỊ BAN!</div>`;
+          terminal.innerHTML += `
+            <div style="color:var(--red);font-weight:700;margin-top:8px;">
+              [!] ⛔ THIẾT BỊ ${devId} ĐÃ BỊ BAN!
+            </div>
+            <div style="color:var(--red);font-size:10px;">
+              Liên hệ Admin để được hỗ trợ
+            </div>
+          `;
           await sleep(2000);
           
-          terminalBox.style.display = "none";
-          document.getElementById("keyDisplay").innerHTML = '<span class="ban-notice">🚫 ĐÃ BỊ BAN</span>';
-          document.getElementById("resultSection").style.display = "block";
+          terminal.style.display = 'none';
+          $('keyDisplay').innerHTML = '<span style="color:var(--red);">🚫 THIẾT BỊ BỊ BAN VĨNH VIỄN</span>';
+          $('resultSection').style.display = 'block';
+          $('resultSection').classList.add('fade-in');
           updateStep(3, 'fail');
+          applyBlock('Banned device: ' + devId);
           return;
         }
         
+        // Success logs
         const successLogs = [
-          "> 🔓 Giải mã key...",
-          "> 🔑 Key activated!",
-          `> 📱 Device: ${devId.substring(0, 16)}...`,
-          "> 🔄 Đồng bộ cloud...",
-          "> ✨ [✓] THÀNH CÔNG!"
+          '> 🔓 Đang giải mã khóa bảo mật...',
+          `> 📱 Thiết bị: ${devId.substring(0, 16)}...`,
+          '> 🔑 Kích hoạt key thành công...',
+          '> 🔄 Đồng bộ với cloud server...',
+          '> ✨ [✓] QUYỀN TRUY CẬP ĐÃ ĐƯỢC CẤP!',
         ];
         
-        for (let log of successLogs) {
-          await typeLog(terminalBox, log, 30);
-          await sleep(2000);
+        for (const log of successLogs) {
+          await typeLog(terminal, log, 25);
+          await sleep(1500);
         }
         
-        terminalBox.style.display = "none";
-        document.getElementById("keyDisplay").textContent = window.__htoolKey || 'HTOOL-2026-VIP-999';
-        document.getElementById("resultSection").style.display = "block";
+        // Show key
+        const finalKey = appKey || CONFIG.defaultKey;
+        terminal.style.display = 'none';
+        $('keyDisplay').textContent = finalKey;
+        $('resultSection').style.display = 'block';
+        $('resultSection').classList.add('fade-in');
         updateStep(3, 'done');
         
+        // Save success
+        sessionStorage.setItem('htool_verified', 'true');
+        sessionStorage.setItem('htool_device', devId);
+        
+        showToast('✅ Xác thực thành công!', 'success');
+        
       } catch (err) {
-        alert("❌ Lỗi kết nối!");
-        document.getElementById("authSection").style.display = "block";
-        terminalBox.style.display = "none";
+        console.error('Verification error:', err);
+        terminal.innerHTML += `
+          <div style="color:var(--red);margin-top:8px;">
+            [!] ❌ LỖI KẾT NỐI MÁY CHỦ
+          </div>
+          <div style="color:#888;font-size:10px;">
+            ${err.message}
+          </div>
+        `;
+        await sleep(2000);
+        
+        $('authSection').style.display = 'block';
+        terminal.style.display = 'none';
         updateStep(3, 'fail');
+        showToast('❌ Lỗi kết nối! Thử lại sau.', 'error');
       }
     }
 
-    async function typeLog(container, text, speed = 50) {
-      const line = document.createElement("div");
-      line.className = "terminal-line";
+    async function typeLog(container, text, speed = 40) {
+      const line = document.createElement('div');
+      line.className = 'terminal-line';
       container.appendChild(line);
-      for (let char of text) {
+      for (const char of text) {
         line.textContent += char;
         await sleep(speed);
       }
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
+    // ==========================================
+    // COPY KEY
+    // ==========================================
     function copyKey() {
-      const text = document.getElementById("keyDisplay").textContent;
-      if (text.includes('BAN') || text === '...') { alert("⚠️ Không thể copy!"); return; }
+      const text = $('keyDisplay').textContent;
+      if (text.includes('BAN') || text === '...') {
+        showToast('⚠️ Không thể copy key này!', 'warning');
+        return;
+      }
       
-      navigator.clipboard.writeText(text).then(() => alert("✅ Đã copy!"))
-        .catch(() => {
-          const ta = document.createElement('textarea');
-          ta.value = text;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-          alert("✅ Đã copy!");
-        });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('✅ Đã copy key vào clipboard!', 'success');
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('✅ Đã copy key!', 'success'); } 
+      catch(e) { showToast('❌ Không thể copy!', 'error'); }
+      document.body.removeChild(ta);
     }
 
     // ==========================================
-    // ANTI-DEBUG
+    // RESET
     // ==========================================
-    
+    function resetAll() {
+      sessionStorage.removeItem('htool_verified');
+      sessionStorage.removeItem('htool_device');
+      $('resultSection').style.display = 'none';
+      $('authSection').style.display = 'block';
+      $('terminalBox').style.display = 'none';
+      $('keyDisplay').textContent = '...';
+      updateStep(3, '');
+      updateStep(2, 'active');
+    }
+
+    // ==========================================
+    // ANTI-DEBUG & PROTECTION
+    // ==========================================
     (function() {
+      // DevTools detection
+      let devtoolsOpen = false;
       setInterval(() => {
-        const threshold = 160;
-        if (window.outerWidth - window.innerWidth > threshold || 
-            window.outerHeight - window.innerHeight > threshold) {
-          handleBypassDetected(['DevTools detected']);
+        const w = window.outerWidth - window.innerWidth > 160;
+        const h = window.outerHeight - window.innerHeight > 160;
+        if ((w || h) && !devtoolsOpen) {
+          devtoolsOpen = true;
+          if (window.location.search.length > 0) {
+            handleBypass(['DevTools opened']);
+          }
         }
+        if (!w && !h) devtoolsOpen = false;
       }, 1000);
       
-      document.addEventListener('keydown', e => {
-        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) || (e.ctrlKey && e.key === 'U')) {
+      // Block shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) ||
+          (e.ctrlKey && e.key === 'U') ||
+          (e.ctrlKey && e.key === 'S') ||
+          (e.ctrlKey && e.shiftKey && e.key === 'I')
+        ) {
           e.preventDefault();
           return false;
         }
       });
       
-      document.addEventListener('contextmenu', e => e.preventDefault());
+      // Block right click
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+      });
+      
+      // Console protection
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        const noop = () => {};
+        const methods = ['log', 'debug', 'warn', 'info', 'error', 'exception', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd'];
+        methods.forEach(m => { console[m] = noop; });
+      }
+      
+      // Clear console
+      setTimeout(() => { console.clear(); }, 100);
     })();
 
     // ==========================================
-    // START APP
+    // START
     // ==========================================
-    
-    window.addEventListener('DOMContentLoaded', initApp);
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check block first
+      if (isBlocked()) {
+        showBlockOverlay(isBlocked());
+        return;
+      }
+      
+      // Initialize app
+      initApp().catch(err => {
+        console.error('App init error:', err);
+        showToast('❌ Lỗi khởi tạo! Vui lòng tải lại trang.', 'error');
+      });
+    });
+
+    // Prevent unload tricks
+    window.addEventListener('beforeunload', () => {
+      sessionStorage.setItem('htool_last_unload', Date.now().toString());
+    });
+
+    console.log('%c🛡️ H-TOOL TERMINAL PRO - SECURED %c| %cVersion 3.0',
+      'color: #00ff41; font-size: 16px;',
+      '',
+      'color: #ffaa00;');
   </script>
 </body>
 </html>
