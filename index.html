@@ -1,1018 +1,171 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>H-TOOL TERMINAL PRO - BẢO MẬT TOÀN DIỆN</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #050505;
-      --card: #0a0a0a;
-      --green: #00ff41;
-      --green-dark: #00cc33;
-      --red: #ff3333;
-      --orange: #ffaa00;
-      --blue: #0099ff;
-      --text: #ccc;
-    }
-    * { box-sizing: border-box; user-select: none; -webkit-user-select: none; -moz-user-select: none; }
-    body { 
-      margin: 0; 
-      background: var(--bg); 
-      color: var(--green); 
-      font-family: 'Fira Code', monospace; 
-      min-height: 100vh; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      overflow-x: hidden;
-    }
-    .container { 
-      background: var(--card); 
-      border: 1px solid var(--green); 
-      padding: 30px; 
-      border-radius: 15px; 
-      box-shadow: 0 0 30px rgba(0, 255, 65, 0.15), inset 0 0 30px rgba(0, 255, 65, 0.02); 
-      text-align: center; 
-      max-width: 520px; 
-      width: 95%;
-      position: relative;
-    }
-    h2 {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      margin-bottom: 0;
-      letter-spacing: 2px;
-      font-size: 26px;
-      text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
-    }
-    .sub {
-      font-size: 11px;
-      color: #00ff4188;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-    }
-    .steps {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 15px 0 20px;
-    }
-    .step {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      border: 2px solid #333;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700;
-      transition: all 0.4s ease;
-      position: relative;
-    }
-    .step::after {
-      content: '';
-      position: absolute;
-      left: 100%;
-      top: 50%;
-      width: 20px;
-      height: 1px;
-      background: #333;
-      transition: all 0.4s ease;
-    }
-    .step:last-child::after { display: none; }
-    .step.active { border-color: var(--green); background: rgba(0,255,65,0.1); box-shadow: 0 0 12px rgba(0,255,65,0.3); color: var(--green); }
-    .step.done { border-color: var(--green); background: var(--green); color: #000; }
-    .step.done::after { background: var(--green); }
-    .step.fail { border-color: var(--red); background: rgba(255,51,51,0.1); color: var(--red); }
-    input { 
-      width: 100%; 
-      padding: 12px 15px; 
-      background: #000; 
-      border: 1px solid rgba(0,255,65,0.4); 
-      border-radius: 8px; 
-      color: var(--green); 
-      margin-bottom: 12px; 
-      outline: none; 
-      font-family: 'Fira Code', monospace;
-      font-size: 14px;
-      transition: 0.3s;
-    }
-    input:focus { border-color: var(--green); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
-    input:disabled { background: #111; color: #555; border-color: #333; cursor: not-allowed; }
-    button { 
-      width: 100%;
-      padding: 13px; 
-      background: var(--green); 
-      color: #000; 
-      border: none; 
-      border-radius: 8px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      text-transform: uppercase; 
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      letter-spacing: 1px;
-      transition: 0.3s;
-      margin: 5px 0;
-    }
-    button:hover { background: var(--green-dark); box-shadow: 0 0 20px rgba(0,255,65,0.4); transform: translateY(-1px); }
-    button:disabled { background: #333; color: #666; cursor: not-allowed; box-shadow: none; transform: none; }
-    button:active { transform: scale(0.98); }
-    .btn-orange { background: var(--orange); color: #000; }
-    .btn-orange:hover { background: #ff8800; box-shadow: 0 0 20px rgba(255,170,0,0.4); }
-    .btn-outline { background: transparent; border: 1px solid var(--green); color: var(--green); }
-    .btn-outline:hover { background: rgba(0,255,65,0.1); }
-    .btn-sm { width: auto; padding: 8px 20px; font-size: 12px; display: inline-block; }
-    .terminal-box { 
-      display: none; 
-      background: #000; 
-      border: 1px solid rgba(0,255,65,0.3); 
-      padding: 15px; 
-      margin: 15px 0; 
-      text-align: left; 
-      font-size: 11px; 
-      max-height: 220px; 
-      overflow-y: auto; 
-      border-radius: 8px;
-      font-family: 'Fira Code', monospace;
-      line-height: 1.8;
-    }
-    .terminal-line { word-break: break-all; }
-    .result-section { display: none; margin-top: 15px; }
-    .key-box { 
-      font-size: 15px; 
-      font-weight: 700; 
-      padding: 14px; 
-      border: 1px dashed var(--green); 
-      margin: 12px 0; 
-      color: #fff; 
-      word-break: break-all; 
-      background: #000;
-      border-radius: 8px;
-      letter-spacing: 1px;
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-      margin: 3px;
-    }
-    .badge-success { background: rgba(0,255,65,0.1); border: 1px solid var(--green); color: var(--green); }
-    .badge-warning { background: rgba(255,170,0,0.1); border: 1px solid var(--orange); color: var(--orange); }
-    .badge-error { background: rgba(255,51,51,0.1); border: 1px solid var(--red); color: var(--red); }
-    .badge-info { background: rgba(0,153,255,0.1); border: 1px solid var(--blue); color: var(--blue); }
-    .spinner {
-      width: 35px; height: 35px;
-      border: 3px solid rgba(0,255,65,0.15);
-      border-top-color: var(--green);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 15px auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    
-    /* Overlay */
-    #blockedOverlay {
-      display: none;
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.97);
-      z-index: 99999;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: var(--red);
-      text-align: center;
-      padding: 20px;
-    }
-    #blockedOverlay h1 { font-size: 36px; margin-bottom: 10px; }
-    #blockedOverlay .countdown { font-size: 22px; color: var(--orange); margin: 15px 0; }
-    
-    /* Toast */
-    .toast {
-      position: fixed; top: 20px; right: 20px;
-      background: #000; border: 1px solid var(--green);
-      color: var(--green); padding: 12px 20px;
-      border-radius: 8px; font-size: 13px;
-      z-index: 9999; opacity: 0; transform: translateX(100%);
-      transition: all 0.3s ease;
-      max-width: 350px;
-    }
-    .toast.show { opacity: 1; transform: translateX(0); }
-    
-    /* Scrollbar */
-    .terminal-box::-webkit-scrollbar { width: 4px; }
-    .terminal-box::-webkit-scrollbar-track { background: #000; }
-    .terminal-box::-webkit-scrollbar-thumb { background: var(--green); border-radius: 2px; }
-    
-    /* Animation */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in { animation: fadeInUp 0.4s ease forwards; }
-    .hidden { display: none !important; }
-    
-    /* Responsive */
-    @media (max-width: 480px) {
-      .container { padding: 20px 15px; }
-      h2 { font-size: 20px; }
-      input { font-size: 12px; padding: 10px; }
-      button { font-size: 12px; padding: 10px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Báo Cập Nhật Hệ Thống</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f8fafc;
+            overflow: hidden;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 440px;
+            width: 90%;
+            position: relative;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .icon-container {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .icon-container i {
+            font-size: 32px;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .badge-old {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .badge-new {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .footer span {
+            color: #a855f7;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast"></div>
-
-  <!-- Block Overlay -->
-  <div id="blockedOverlay">
-    <h1>🚫 TRUY CẬP BỊ TỪ CHỐI</h1>
-    <p style="font-size:16px;color:var(--orange);">Phát hiện hành vi bypass / tham số không hợp lệ</p>
-    <div class="countdown" id="countdownDisplay"></div>
-    <p style="color:#888;font-size:13px;">Thiết bị của bạn sẽ bị khóa trong 3 ngày</p>
-    <p style="color:#555;font-size:11px;margin-top:20px;">Liên hệ Admin nếu đây là nhầm lẫn</p>
-  </div>
-
-  <!-- Main Container -->
-  <div class="container" id="mainContainer">
-    <h2>⚡ H-TOOL TERMINAL</h2>
-    <p class="sub">BẢO MẬT 3 LỚP • CHỐNG BYPASS • LINK4M</p>
-
-    <!-- Step Indicators -->
-    <div class="steps">
-      <div class="step active" id="step1">1</div>
-      <div class="step" id="step2">2</div>
-      <div class="step" id="step3">3</div>
-    </div>
-
-    <!-- Step 1: Link4m Verification -->
-    <div id="link4mSection" class="fade-in">
-      <p style="color:var(--orange);font-size:12px;">🔗 STEP 1: XÁC THỰC LINK4M</p>
-      <div class="spinner" id="loadingSpinner"></div>
-      <div id="link4mStatus"></div>
-      <div id="link4mAction"></div>
-    </div>
-
-    <!-- Step 2: Device ID Input -->
-    <div id="authSection" class="hidden">
-      <div id="link4mConfirmed" style="margin-bottom:12px;"></div>
-      <p style="color:var(--orange);font-size:12px;">📱 STEP 2: NHẬP DEVICE ID</p>
-      <input type="text" id="deviceId" placeholder="Nhập Mã thiết bị (Device ID)..." autocomplete="off" spellcheck="false">
-      <button onclick="startVerification()" id="verifyBtn">🔐 XÁC THỰC THIẾT BỊ</button>
-    </div>
-
-    <!-- Step 3: Terminal & Result -->
-    <div class="terminal-box" id="terminalBox"></div>
-    <div class="result-section" id="resultSection">
-      <p style="font-size:13px;color:var(--green);">🔑 KEY ĐÃ KÍCH HOẠT:</p>
-      <div class="key-box" id="keyDisplay">...</div>
-      <button onclick="copyKey()" class="btn-orange">📋 COPY KEY</button>
-      <button onclick="resetAll()" class="btn-outline btn-sm" style="margin-top:8px;">🔄 KIỂM TRA LẠI</button>
-    </div>
-  </div>
-
-  <script>
-    // ==========================================
-    // CONFIGURATION - SỬA Ở ĐÂY
-    // ==========================================
-    const CONFIG = {
-      // Link4m API
-      link4m: {
-        apiKey: '6a620a7003c42e28f00e2158',        // API Key Link4m
-        apiEndpoint: 'https://link4m.co/api-shorten/v2',
-        minViewTime: 10,                           // Thời gian xem tối thiểu (giây)
-        requireVerification: true,                 // Bắt buộc verify không?
-      },
-      // Bảo mật
-      security: {
-        salt: 'HTOOL_PRO_2026_SALT_KEY_X9',        // Khóa mã hóa (nên thay đổi)
-        blockDuration: 3 * 24 * 60 * 60 * 1000,    // 3 ngày
-        maxReloads: 3,                             // Số lần reload tối đa
-        allowedDomains: ['hungkeytool.vercel.app', 'localhost', '127.0.0.1'],
-      },
-      // API JSONBin (danh sách banned)
-      jsonbin: {
-        url: 'https://api.jsonbin.io/v3/b/6a17d97221f9ee59d294044f/latest',
-        masterKey: '$2a$10$uykb8nItAhAj388Q3fsw4epeY0RR2RfMedSgg691/MCLzaiLgZEqa',
-      },
-      // Default key
-      defaultKey: 'HTOOL-2026-VIP-999',
-    };
-
-    // ==========================================
-    // UTILITY FUNCTIONS
-    // ==========================================
-    const b64Encode = (str) => { try { return btoa(unescape(encodeURIComponent(str))); } catch(e) { return btoa(str); } };
-    const b64Decode = (str) => { try { return decodeURIComponent(escape(atob(str))); } catch(e) { return atob(str); } };
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-    const $ = (id) => document.getElementById(id);
-    
-    function encryptData(text) {
-      const salt = CONFIG.security.salt;
-      let result = '';
-      for (let i = 0; i < text.length; i++) {
-        result += String.fromCharCode(text.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
-      }
-      return b64Encode(result);
-    }
-
-    function decryptData(encrypted) {
-      try {
-        const salt = CONFIG.security.salt;
-        const decoded = b64Decode(encrypted);
-        let result = '';
-        for (let i = 0; i < decoded.length; i++) {
-          result += String.fromCharCode(decoded.charCodeAt(i) ^ salt.charCodeAt(i % salt.length));
-        }
-        return result;
-      } catch(e) { return null; }
-    }
-
-    function showToast(msg, type = 'success') {
-      const toast = $('toast');
-      toast.textContent = msg;
-      toast.style.color = type === 'error' ? 'var(--red)' : type === 'warning' ? 'var(--orange)' : 'var(--green)';
-      toast.style.borderColor = type === 'error' ? 'var(--red)' : type === 'warning' ? 'var(--orange)' : 'var(--green)';
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function updateStep(num, status) {
-      const el = $(`step${num}`);
-      if (!el) return;
-      el.className = 'step ' + status;
-    }
-
-    // ==========================================
-    // GET PARAMS FROM URL
-    // ==========================================
-    function getParams() {
-      const urlParams = new URLSearchParams(window.location.search);
-      
-      // Try encrypted token first
-      const token = urlParams.get('token');
-      if (token) {
-        const decrypted = decryptData(decodeURIComponent(token));
-        if (decrypted) {
-          const parts = decrypted.split('|');
-          if (parts.length === 3) {
-            return { hwid: parts[0], ip: parts[1], key: parts[2], valid: true, encrypted: true };
-          }
-        }
-        return { valid: false, reason: 'Token không hợp lệ hoặc đã bị chỉnh sửa' };
-      }
-      
-      // Fallback to raw params
-      const hwid = urlParams.get('hwid');
-      const ip = urlParams.get('ip');
-      const key = urlParams.get('key');
-      
-      if (hwid && ip && key) {
-        return { hwid, ip, key, valid: true, encrypted: false };
-      }
-      
-      return { valid: false, reason: 'Thiếu tham số URL' };
-    }
-
-    // ==========================================
-    // BLOCK SYSTEM (3 NGÀY)
-    // ==========================================
-    function isBlocked() {
-      const blockData = localStorage.getItem('htool_blocked');
-      if (!blockData) return false;
-      
-      try {
-        const block = JSON.parse(blockData);
-        if (Date.now() > block.expiry) {
-          localStorage.removeItem('htool_blocked');
-          sessionStorage.removeItem('htool_reload');
-          return false;
-        }
-        return block;
-      } catch(e) {
-        localStorage.removeItem('htool_blocked');
-        return false;
-      }
-    }
-
-    function applyBlock(reason = 'Bypass detected') {
-      const existing = JSON.parse(localStorage.getItem('htool_blocked') || '{}');
-      const blockData = {
-        reason: reason,
-        attempts: (existing.attempts || 0) + 1,
-        expiry: Date.now() + CONFIG.security.blockDuration,
-        timestamp: Date.now(),
-        fingerprint: generateFingerprint(),
-      };
-      localStorage.setItem('htool_blocked', JSON.stringify(blockData));
-      
-      // Log security event
-      const logs = JSON.parse(localStorage.getItem('htool_security_logs') || '[]');
-      logs.push({ ...blockData, userAgent: navigator.userAgent.substring(0, 100), url: window.location.href });
-      localStorage.setItem('htool_security_logs', JSON.stringify(logs.slice(-30)));
-      
-      return blockData;
-    }
-
-    function generateFingerprint() {
-      const components = [
-        navigator.userAgent,
-        navigator.language,
-        screen.width + 'x' + screen.height,
-        new Date().getTimezoneOffset(),
-        navigator.hardwareConcurrency || 'unknown',
-      ];
-      return b64Encode(components.join('|')).substring(0, 32);
-    }
-
-    function showBlockOverlay(blockData) {
-      $('blockedOverlay').style.display = 'flex';
-      $('mainContainer').style.display = 'none';
-      
-      const updateCountdown = () => {
-        const remaining = blockData.expiry - Date.now();
-        if (remaining <= 0) {
-          $('countdownDisplay').textContent = '✅ Đã hết thời gian khóa. Tải lại trang.';
-          clearInterval(window._cdInterval);
-          return;
-        }
-        const d = Math.floor(remaining / 86400000);
-        const h = Math.floor((remaining % 86400000) / 3600000);
-        const m = Math.floor((remaining % 3600000) / 60000);
-        $('countdownDisplay').textContent = `⏳ Còn: ${d} ngày ${h} giờ ${m} phút`;
-      };
-      
-      updateCountdown();
-      window._cdInterval = setInterval(updateCountdown, 60000);
-      
-      // Disable everything
-      document.querySelectorAll('input, button').forEach(el => el.disabled = true);
-      document.addEventListener('keydown', e => e.preventDefault(), true);
-      document.addEventListener('contextmenu', e => e.preventDefault(), true);
-    }
-
-    // ==========================================
-    // BYPASS DETECTION
-    // ==========================================
-    function detectBypass() {
-      const checks = [];
-      
-      // Domain check
-      if (!CONFIG.security.allowedDomains.some(d => window.location.hostname.includes(d))) {
-        checks.push('Invalid domain: ' + window.location.hostname);
-      }
-      
-      // Iframe check
-      if (window.self !== window.top) {
-        checks.push('Iframe embedding detected');
-      }
-      
-      // URL params check
-      if (window.location.search.length > 0) {
-        const params = getParams();
-        if (!params.valid) {
-          checks.push('Invalid URL parameters: ' + (params.reason || 'unknown'));
-        }
-      }
-      
-      // Reload count
-      let reloadCount = parseInt(sessionStorage.getItem('htool_reload') || '0');
-      reloadCount++;
-      sessionStorage.setItem('htool_reload', reloadCount.toString());
-      if (reloadCount > CONFIG.security.maxReloads) {
-        checks.push('Excessive reloads: ' + reloadCount);
-      }
-      
-      return checks;
-    }
-
-    function handleBypass(reasons) {
-      console.error('🛡️ [SECURITY] Bypass detected:', reasons);
-      const blockData = applyBlock(reasons.join('; '));
-      showBlockOverlay(blockData);
-    }
-
-    // ==========================================
-    // LINK4M VERIFICATION
-    // ==========================================
-    class Link4mVerifier {
-      constructor() {
-        this.fingerprint = generateFingerprint();
-      }
-      
-      // Method 1: Check referrer
-      checkReferrer() {
-        const ref = document.referrer;
-        if (!ref) return null;
-        
-        const isLink4m = ref.includes('link4m.co') || ref.includes('link4m.com');
-        if (isLink4m) {
-          return { method: 'referrer', valid: true, source: ref };
-        }
-        return null;
-      }
-      
-      // Method 2: Check view time
-      checkViewTime() {
-        const loadTime = sessionStorage.getItem('l4m_load_time');
-        if (!loadTime) {
-          sessionStorage.setItem('l4m_load_time', Date.now().toString());
-          return { method: 'viewtime', valid: false, remaining: CONFIG.link4m.minViewTime };
-        }
-        
-        const elapsed = Math.floor((Date.now() - parseInt(loadTime)) / 1000);
-        if (elapsed >= CONFIG.link4m.minViewTime) {
-          sessionStorage.setItem('l4m_verified', 'true');
-          return { method: 'viewtime', valid: true, elapsed };
-        }
-        
-        return { method: 'viewtime', valid: false, remaining: CONFIG.link4m.minViewTime - elapsed };
-      }
-      
-      // Method 3: Check session
-      checkSession() {
-        if (sessionStorage.getItem('l4m_verified') === 'true') {
-          return { method: 'session', valid: true };
-        }
-        return null;
-      }
-      
-      // Method 4: Check proof-of-work
-      async checkPoW() {
-        const solved = sessionStorage.getItem('l4m_pow');
-        if (solved === 'true') {
-          return { method: 'pow', valid: true };
-        }
-        
-        // Simple PoW challenge
-        const challenge = Math.random().toString(36).substring(2, 10);
-        const startTime = Date.now();
-        
-        // Simulate work (0.5-2 seconds)
-        await sleep(500 + Math.random() * 1500);
-        
-        sessionStorage.setItem('l4m_pow', 'true');
-        sessionStorage.setItem('l4m_pow_time', Date.now().toString());
-        
-        return { method: 'pow', valid: true, challenge, time: Date.now() - startTime };
-      }
-      
-      // Main verify
-      async verify() {
-        const results = [];
-        
-        // 1. Session (instant)
-        const session = this.checkSession();
-        if (session) return { ...session, priority: 'instant', allMethods: [session] };
-        
-        // 2. Referrer + ViewTime
-        const referrer = this.checkReferrer();
-        const viewTime = this.checkViewTime();
-        
-        if (referrer && viewTime.valid) {
-          sessionStorage.setItem('l4m_verified', 'true');
-          return { ...referrer, elapsed: viewTime.elapsed, priority: 'high', allMethods: [referrer, viewTime] };
-        }
-        
-        if (viewTime.valid === false && viewTime.remaining > 0) {
-          return { valid: false, reason: 'need_more_time', remaining: viewTime.remaining, allMethods: [viewTime] };
-        }
-        
-        // 3. Proof-of-Work (fallback)
-        if (CONFIG.link4m.requireVerification) {
-          const pow = await this.checkPoW();
-          if (pow.valid) {
-            sessionStorage.setItem('l4m_verified', 'true');
-            return { ...pow, priority: 'medium', allMethods: [...results, pow] };
-          }
-        }
-        
-        // All failed
-        return { valid: false, reason: 'all_failed', allMethods: results };
-      }
-      
-      // Create short link via API
-      async createShortLink(longUrl) {
-        try {
-          const apiUrl = `${CONFIG.link4m.apiEndpoint}?api=${CONFIG.link4m.apiKey}&url=${encodeURIComponent(longUrl)}`;
-          const response = await fetch(apiUrl);
-          const data = await response.json();
-          return data.status === 'success' ? data.shortenedUrl : null;
-        } catch(e) {
-          console.error('Link4m API error:', e);
-          return null;
-        }
-      }
-    }
-
-    // ==========================================
-    // MAIN APPLICATION FLOW
-    // ==========================================
-    const verifier = new Link4mVerifier();
-    let appKey = null;
-
-    async function initApp() {
-      // 1. Check if blocked
-      const blockData = isBlocked();
-      if (blockData) {
-        showBlockOverlay(blockData);
-        return;
-      }
-      
-      // 2. Check bypass
-      const bypassChecks = detectBypass();
-      if (bypassChecks.length > 0) {
-        handleBypass(bypassChecks);
-        return;
-      }
-      
-      // 3. Get URL params
-      const params = getParams();
-      if (params.valid) {
-        appKey = params.key;
-        // Pre-fill device ID
-        $('deviceId').value = params.hwid;
-        console.log('✅ [INFO] URL params loaded:', params.encrypted ? 'ENCRYPTED' : 'RAW');
-      }
-      
-      // 4. Verify Link4m
-      updateStep(1, 'active');
-      
-      const verifyResult = await verifier.verify();
-      
-      if (verifyResult.valid) {
-        // Link4m OK -> Show auth section
-        onLink4mSuccess(verifyResult);
-      } else if (verifyResult.reason === 'need_more_time') {
-        // Need to wait
-        onLink4mWaiting(verifyResult);
-      } else {
-        // Need to go through Link4m
-        onLink4mRequired(verifyResult);
-      }
-    }
-
-    function onLink4mSuccess(result) {
-      $('loadingSpinner').style.display = 'none';
-      $('link4mStatus').innerHTML = `
-        <span class="status-badge badge-success">✅ Link4m Verified</span>
-        <span class="status-badge badge-info">${result.method || 'OK'}</span>
-        ${result.elapsed ? `<span style="font-size:10px;color:#888;"> (${result.elapsed}s)</span>` : ''}
-      `;
-      
-      updateStep(1, 'done');
-      
-      // Show device ID input
-      setTimeout(() => {
-        $('link4mSection').style.display = 'none';
-        $('authSection').classList.remove('hidden');
-        $('authSection').classList.add('fade-in');
-        $('link4mConfirmed').innerHTML = `
-          <span class="status-badge badge-success">✅ Đã xác thực Link4m</span>
-        `;
-        updateStep(2, 'active');
-      }, 500);
-    }
-
-    function onLink4mWaiting(result) {
-      $('loadingSpinner').style.display = 'none';
-      $('link4mStatus').innerHTML = `
-        <span class="status-badge badge-warning">⏳ Đang đếm thời gian xem...</span>
-        <p style="font-size:12px;color:var(--orange);margin-top:8px;">
-          Vui lòng đợi <b id="countdownTimer">${result.remaining}</b> giây
+    <div class="card">
+        <div class="icon-container">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h2>Thông Báo Hệ Thống</h2>
+        <p>
+            Phiên bản <span class="badge-old">v1</span> đã ngừng hoạt động.<br>
+            Vui lòng lấy key mới qua phiên bản <span class="badge-new">v3</span> để tiếp tục sử dụng dịch vụ.
         </p>
-      `;
-      
-      let remaining = result.remaining;
-      const timerEl = $('countdownTimer');
-      const interval = setInterval(() => {
-        remaining--;
-        if (timerEl) timerEl.textContent = remaining;
-        if (remaining <= 0) {
-          clearInterval(interval);
-          window.location.reload();
-        }
-      }, 1000);
-      
-      $('link4mAction').innerHTML = `
-        <button onclick="window.location.reload()" class="btn-orange">
-          🔄 KIỂM TRA LẠI (${result.remaining}s)
-        </button>
-      `;
-    }
+        <a href="https://rutnganlink.page.gd/?i=1" class="btn" target="_blank">
+            <i class="fa-solid fa-key"></i> Lấy Key v3 Ngay
+        </a>
+        <div class="footer">
+            Designed by <span>htool</span>
+        </div>
+    </div>
 
-    async function onLink4mRequired(result) {
-      $('loadingSpinner').style.display = 'none';
-      $('link4mStatus').innerHTML = `
-        <span class="status-badge badge-warning">⚠️ Cần truy cập qua Link4m</span>
-        <p style="font-size:11px;color:#888;margin-top:8px;">
-          Vui lòng sử dụng link rút gọn Link4m để truy cập
-        </p>
-      `;
-      
-      // Try to create short link
-      const currentUrl = window.location.href;
-      const shortLink = await verifier.createShortLink(currentUrl);
-      
-      if (shortLink) {
-        $('link4mAction').innerHTML = `
-          <button onclick="window.location.href='${shortLink}'" class="btn-orange">
-            🔗 TRUY CẬP QUA LINK4M
-          </button>
-          <p style="font-size:10px;color:#555;margin-top:8px;">
-            ${shortLink}
-          </p>
-        `;
-      } else {
-        $('link4mAction').innerHTML = `
-          <button onclick="window.location.href='https://link4m.com'" class="btn-orange">
-            🔗 VÀO LINK4M
-          </button>
-          <p style="font-size:10px;color:#888;margin-top:8px;">
-            Sau đó truy cập lại tool qua link rút gọn
-          </p>
-        `;
-      }
-      
-      // Skip button (if not strict)
-      if (!CONFIG.link4m.requireVerification) {
-        $('link4mAction').innerHTML += `
-          <button onclick="skipVerification()" class="btn-outline btn-sm" style="margin-top:10px;display:block;width:100%;">
-            ⏭️ Bỏ qua (Không khuyến khích)
-          </button>
-        `;
-      }
-      
-      updateStep(1, 'fail');
-    }
-
-    function skipVerification() {
-      sessionStorage.setItem('l4m_verified', 'true');
-      sessionStorage.setItem('l4m_pow', 'true');
-      $('link4mSection').style.display = 'none';
-      $('authSection').classList.remove('hidden');
-      $('link4mConfirmed').innerHTML = '<span class="status-badge badge-warning">⚠️ Đã bỏ qua xác thực Link4m</span>';
-      updateStep(1, 'done');
-      updateStep(2, 'active');
-    }
-
-    // ==========================================
-    // DEVICE VERIFICATION
-    // ==========================================
-    async function startVerification() {
-      const devId = $('deviceId').value.trim();
-      if (!devId) {
-        showToast('⚠️ Vui lòng nhập Device ID!', 'warning');
-        return;
-      }
-      
-      // Double-check Link4m
-      if (CONFIG.link4m.requireVerification && sessionStorage.getItem('l4m_verified') !== 'true') {
-        showToast('⚠️ Cần xác thực Link4m trước!', 'warning');
-        $('link4mSection').style.display = 'block';
-        $('authSection').classList.add('hidden');
-        return;
-      }
-      
-      // Hide auth, show terminal
-      $('authSection').style.display = 'none';
-      updateStep(2, 'done');
-      updateStep(3, 'active');
-      
-      const terminal = $('terminalBox');
-      terminal.style.display = 'block';
-      terminal.innerHTML = '';
-      
-      // Terminal logs
-      const logs = [
-        '> 🔗 Đang kết nối máy chủ bảo mật...',
-        '> 🛡️ Khởi tạo kết nối SSL/TLS...',
-        '> 📡 Xác thực chữ ký số...',
-        '> 🔐 Kiểm tra mã hóa dữ liệu...',
-      ];
-      
-      for (const log of logs) {
-        await typeLog(terminal, log, 30);
-        await sleep(600);
-      }
-      
-      try {
-        await typeLog(terminal, '> 🌐 Đang truy vấn cơ sở dữ liệu...', 30);
-        await sleep(800);
-        
-        const response = await fetch(CONFIG.jsonbin.url, {
-          headers: { 'X-Master-Key': CONFIG.jsonbin.masterKey }
-        });
-        
-        if (!response.ok) throw new Error('API Error: ' + response.status);
-        
-        const data = await response.json();
-        const bannedList = data.record?.banned_ips || [];
-        
-        await typeLog(terminal, '> ✅ Dữ liệu đã được tải về', 30);
-        await sleep(500);
-        
-        // Check ban
-        if (bannedList.includes(devId)) {
-          terminal.innerHTML += `
-            <div style="color:var(--red);font-weight:700;margin-top:8px;">
-              [!] ⛔ THIẾT BỊ ${devId} ĐÃ BỊ BAN!
-            </div>
-            <div style="color:var(--red);font-size:10px;">
-              Liên hệ Admin để được hỗ trợ
-            </div>
-          `;
-          await sleep(2000);
-          
-          terminal.style.display = 'none';
-          $('keyDisplay').innerHTML = '<span style="color:var(--red);">🚫 THIẾT BỊ BỊ BAN VĨNH VIỄN</span>';
-          $('resultSection').style.display = 'block';
-          $('resultSection').classList.add('fade-in');
-          updateStep(3, 'fail');
-          applyBlock('Banned device: ' + devId);
-          return;
-        }
-        
-        // Success logs
-        const successLogs = [
-          '> 🔓 Đang giải mã khóa bảo mật...',
-          `> 📱 Thiết bị: ${devId.substring(0, 16)}...`,
-          '> 🔑 Kích hoạt key thành công...',
-          '> 🔄 Đồng bộ với cloud server...',
-          '> ✨ [✓] QUYỀN TRUY CẬP ĐÃ ĐƯỢC CẤP!',
-        ];
-        
-        for (const log of successLogs) {
-          await typeLog(terminal, log, 25);
-          await sleep(1500);
-        }
-        
-        // Show key
-        const finalKey = appKey || CONFIG.defaultKey;
-        terminal.style.display = 'none';
-        $('keyDisplay').textContent = finalKey;
-        $('resultSection').style.display = 'block';
-        $('resultSection').classList.add('fade-in');
-        updateStep(3, 'done');
-        
-        // Save success
-        sessionStorage.setItem('htool_verified', 'true');
-        sessionStorage.setItem('htool_device', devId);
-        
-        showToast('✅ Xác thực thành công!', 'success');
-        
-      } catch (err) {
-        console.error('Verification error:', err);
-        terminal.innerHTML += `
-          <div style="color:var(--red);margin-top:8px;">
-            [!] ❌ LỖI KẾT NỐI MÁY CHỦ
-          </div>
-          <div style="color:#888;font-size:10px;">
-            ${err.message}
-          </div>
-        `;
-        await sleep(2000);
-        
-        $('authSection').style.display = 'block';
-        terminal.style.display = 'none';
-        updateStep(3, 'fail');
-        showToast('❌ Lỗi kết nối! Thử lại sau.', 'error');
-      }
-    }
-
-    async function typeLog(container, text, speed = 40) {
-      const line = document.createElement('div');
-      line.className = 'terminal-line';
-      container.appendChild(line);
-      for (const char of text) {
-        line.textContent += char;
-        await sleep(speed);
-      }
-    }
-
-    // ==========================================
-    // COPY KEY
-    // ==========================================
-    function copyKey() {
-      const text = $('keyDisplay').textContent;
-      if (text.includes('BAN') || text === '...') {
-        showToast('⚠️ Không thể copy key này!', 'warning');
-        return;
-      }
-      
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast('✅ Đã copy key vào clipboard!', 'success');
-        }).catch(() => fallbackCopy(text));
-      } else {
-        fallbackCopy(text);
-      }
-    }
-
-    function fallbackCopy(text) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      try { document.execCommand('copy'); showToast('✅ Đã copy key!', 'success'); } 
-      catch(e) { showToast('❌ Không thể copy!', 'error'); }
-      document.body.removeChild(ta);
-    }
-
-    // ==========================================
-    // RESET
-    // ==========================================
-    function resetAll() {
-      sessionStorage.removeItem('htool_verified');
-      sessionStorage.removeItem('htool_device');
-      $('resultSection').style.display = 'none';
-      $('authSection').style.display = 'block';
-      $('terminalBox').style.display = 'none';
-      $('keyDisplay').textContent = '...';
-      updateStep(3, '');
-      updateStep(2, 'active');
-    }
-
-    // ==========================================
-    // ANTI-DEBUG & PROTECTION
-    // ==========================================
-    (function() {
-      // DevTools detection
-      let devtoolsOpen = false;
-      setInterval(() => {
-        const w = window.outerWidth - window.innerWidth > 160;
-        const h = window.outerHeight - window.innerHeight > 160;
-        if ((w || h) && !devtoolsOpen) {
-          devtoolsOpen = true;
-          if (window.location.search.length > 0) {
-            handleBypass(['DevTools opened']);
-          }
-        }
-        if (!w && !h) devtoolsOpen = false;
-      }, 1000);
-      
-      // Block shortcuts
-      document.addEventListener('keydown', function(e) {
-        if (
-          e.key === 'F12' ||
-          (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key)) ||
-          (e.ctrlKey && e.key === 'U') ||
-          (e.ctrlKey && e.key === 'S') ||
-          (e.ctrlKey && e.shiftKey && e.key === 'I')
-        ) {
-          e.preventDefault();
-          return false;
-        }
-      });
-      
-      // Block right click
-      document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        return false;
-      });
-      
-      // Console protection
-      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-        const noop = () => {};
-        const methods = ['log', 'debug', 'warn', 'info', 'error', 'exception', 'table', 'trace', 'dir', 'group', 'groupCollapsed', 'groupEnd'];
-        methods.forEach(m => { console[m] = noop; });
-      }
-      
-      // Clear console
-      setTimeout(() => { console.clear(); }, 100);
-    })();
-
-    // ==========================================
-    // START
-    // ==========================================
-    window.addEventListener('DOMContentLoaded', () => {
-      // Check block first
-      if (isBlocked()) {
-        showBlockOverlay(isBlocked());
-        return;
-      }
-      
-      // Initialize app
-      initApp().catch(err => {
-        console.error('App init error:', err);
-        showToast('❌ Lỗi khởi tạo! Vui lòng tải lại trang.', 'error');
-      });
-    });
-
-    // Prevent unload tricks
-    window.addEventListener('beforeunload', () => {
-      sessionStorage.setItem('htool_last_unload', Date.now().toString());
-    });
-
-    console.log('%c🛡️ H-TOOL TERMINAL PRO - SECURED %c| %cVersion 3.0',
-      'color: #00ff41; font-size: 16px;',
-      '',
-      'color: #ffaa00;');
-  </script>
 </body>
 </html>
