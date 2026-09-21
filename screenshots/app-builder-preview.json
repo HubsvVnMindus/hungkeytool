@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "TST-TOOL XWORLD",
+      "hasCanvas": false,
+      "bodyTextLen": 1982,
+      "bodyTextHash": "f458d0efe28b6b2b91d5d7291351afaf8070e9c3c8ef9e1dd8e27a7feba8fb50",
+      "bodyTextPrefix": "TST-TOOL XWORLD TST-TOOL XWORLD ĐÃ XONG v2.4.1 Bản cập nhật đã h",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "TST-TOOL XWORLD",
+      "hasCanvas": false,
+      "bodyTextLen": 1982,
+      "bodyTextHash": "f458d0efe28b6b2b91d5d7291351afaf8070e9c3c8ef9e1dd8e27a7feba8fb50",
+      "bodyTextPrefix": "TST-TOOL XWORLD TST-TOOL XWORLD ĐÃ XONG v2.4.1 Bản cập nhật đã h",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
